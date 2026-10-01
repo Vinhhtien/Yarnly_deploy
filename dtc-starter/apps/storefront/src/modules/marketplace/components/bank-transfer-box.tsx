@@ -62,14 +62,13 @@ export default function BankTransferBox({ order }: { order: MarketplaceOrder }) 
     return null
   }
 
-  if (order.payment_status === "paid") {
+  if (order.payment_status === "paid" || order.payment_status === "transfer_submitted") {
     return (
       <Notice tone="success">
-        Yarnly đã nhận tiền chuyển khoản lúc {formatDateTime(order.paid_at)}. Đơn đã được gửi tới nghệ nhân.
+        Yarnly đã nhận tiền chuyển khoản lúc {formatDateTime(order.paid_at || order.transfer_submitted_at || new Date().toISOString())}. Đơn đã được gửi tới nghệ nhân.
       </Notice>
     )
   }
-
   if (order.payment_status === "expired" || order.payment_status === "rejected") {
     return (
       <Notice tone="danger">
