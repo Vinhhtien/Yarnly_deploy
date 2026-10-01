@@ -40,6 +40,23 @@ export default function BankTransferBox({ order }: { order: MarketplaceOrder }) 
   const { toast } = useFeedback()
   const secondsLeft = useSecondsLeft(order.payment_deadline)
 
+  useEffect(() => {
+    if (order.payment_status === "awaiting_transfer") {
+      const timer = setTimeout(() => {
+        startTransition(async () => {
+          const result = await submitTransfer(order.order_id)
+          if (result.error) {
+            toast.error(result.error)
+          } else {
+            toast.success("Hệ thống đã xác nhận thanh toán thành công!")
+          }
+          router.refresh()
+        })
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [order.payment_status, order.order_id, router, toast])
+
   if (order.payment_method !== "bank_transfer") {
     return null
   }
@@ -116,19 +133,9 @@ export default function BankTransferBox({ order }: { order: MarketplaceOrder }) 
         Số tiền: <strong>{formatVnd(amount)}</strong> · Nội dung:{" "}
         <strong>{order.transfer_content}</strong>
       </p>
-      <Button
-        isLoading={pending}
-        onClick={() =>
-          startTransition(async () => {
-            const result = await submitTransfer(order.order_id)
-            if (result.error) toast.error(result.error)
-            else toast.success("Đã báo chuyển khoản – Yarnly sẽ kiểm tra và xác nhận qua email")
-            router.refresh()
-          })
-        }
-      >
-        Tôi đã chuyển khoản
-      </Button>
+      <p className="txt-medium text-amber-700 animate-pulse mt-2">
+        Hệ thống đang chờ nhận thanh toán... (Tự động giả lập sau 5 giây)
+      </p>
       <p className="txt-small text-ui-fg-subtle">
         Phí ship trả cho đơn vị vận chuyển khi nhận hàng.
       </p>

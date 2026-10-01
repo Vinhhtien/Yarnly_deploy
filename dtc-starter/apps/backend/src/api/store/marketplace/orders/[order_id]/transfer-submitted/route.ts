@@ -3,11 +3,11 @@ import type {
   MedusaResponse,
 } from "@medusajs/framework/http"
 import { MedusaError } from "@medusajs/framework/utils"
-import { submitTransfer } from "../../../../../../lib/marketplace/transitions"
+import { confirmPayment } from "../../../../../../lib/marketplace/transitions"
 import { MARKETPLACE_MODULE } from "../../../../../../modules/marketplace"
 import type MarketplaceModuleService from "../../../../../../modules/marketplace/service"
 
-/** The customer pressed "Tôi đã chuyển khoản". */
+/** The customer pressed "Tôi đã chuyển khoản" or the auto-check ran. */
 export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse) {
   const marketplace: MarketplaceModuleService = req.scope.resolve(MARKETPLACE_MODULE)
   const [order] = await marketplace.listMarketplaceOrders({
@@ -19,7 +19,7 @@ export async function POST(req: AuthenticatedMedusaRequest, res: MedusaResponse)
     throw new MedusaError(MedusaError.Types.NOT_FOUND, "Không tìm thấy đơn hàng")
   }
 
-  await submitTransfer(req.scope, order.id)
+  await confirmPayment(req.scope, order.id)
 
   res.json({ success: true })
 }

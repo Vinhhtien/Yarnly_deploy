@@ -191,8 +191,8 @@ const Payment = ({
                           <div className="mt-4 p-4 bg-amber-50 rounded-md border border-amber-200">
                             <Text className="txt-medium">
                               Sau khi đặt hàng, mã <strong>VietQR</strong> sẽ hiện ra.
-                              Bạn có <strong>10 phút</strong> để chuyển khoản tiền hàng
-                              và bấm &quot;Tôi đã chuyển khoản&quot;, nếu không đơn sẽ tự huỷ.
+                              Hệ thống sẽ <strong>tự động xác nhận</strong> khi nhận được tiền hàng. 
+                              Bạn có <strong>10 phút</strong> để chuyển khoản, nếu không đơn sẽ tự huỷ.
                             </Text>
                             <Text className="txt-medium mt-2 text-ui-fg-subtle">
                               Phí ship trả cho đơn vị vận chuyển khi nhận hàng.
