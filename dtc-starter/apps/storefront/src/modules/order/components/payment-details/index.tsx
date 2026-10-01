@@ -10,7 +10,7 @@ type PaymentDetailsProps = {
 }
 
 const PaymentDetails = ({ order }: PaymentDetailsProps) => {
-  const payment = order.payment_collections?.[0].payments?.[0]
+  const payment = order.payment_collections?.[0]?.payments?.[0]
   // COD and bank transfer both run on the manual provider; the customer's
   // actual choice is kept in the order metadata.
   const chosenMethod = order.metadata?.payment_method as string | undefined
