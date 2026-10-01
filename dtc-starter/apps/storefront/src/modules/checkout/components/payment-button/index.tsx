@@ -57,6 +57,11 @@ const StripePaymentButton = ({
 
   const onPaymentCompleted = async () => {
     await placeOrder()
+      .then((errorMessage) => {
+        if (typeof errorMessage === "string") {
+          setErrorMessage(errorMessage)
+        }
+      })
       .catch((err) => {
         setErrorMessage(err.message)
       })
@@ -160,6 +165,11 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
 
   const onPaymentCompleted = async () => {
     await placeOrder()
+      .then((errorMessage) => {
+        if (typeof errorMessage === "string") {
+          setErrorMessage(errorMessage)
+        }
+      })
       .catch((err) => {
         setErrorMessage(err.message)
       })

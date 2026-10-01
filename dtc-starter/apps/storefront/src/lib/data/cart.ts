@@ -433,18 +433,22 @@ export async function placeOrder(cartId?: string) {
     ...(await getAuthHeaders()),
   }
 
-  const cart = await retrieveCart(id)
-  if (cart && (!cart.shipping_methods || cart.shipping_methods.length === 0)) {
-    const shippingOptions = await listCartShippingMethods(id)
-    if (shippingOptions && shippingOptions.length > 0) {
-      await setShippingMethod({ cartId: id, shippingMethodId: shippingOptions[0].id })
+  try {
+    const cart = await retrieveCart(id)
+    if (cart && (!cart.shipping_methods || cart.shipping_methods.length === 0)) {
+      const shippingOptions = await listCartShippingMethods(id)
+      if (shippingOptions && shippingOptions.length > 0) {
+        await setShippingMethod({ cartId: id, shippingMethodId: shippingOptions[0].id })
+      }
     }
-  }
 
-  if (cart && (!cart.payment_collection || !cart.payment_collection.payment_sessions || cart.payment_collection.payment_sessions.length === 0)) {
-    await initiatePaymentSession(cart, {
-      provider_id: "pp_system_default"
-    })
+    if (cart && (!cart.payment_collection || !cart.payment_collection.payment_sessions || cart.payment_collection.payment_sessions.length === 0)) {
+      await initiatePaymentSession(cart, {
+        provider_id: "pp_system_default"
+      })
+    }
+  } catch (err: any) {
+    return err.message
   }
 
   const cartRes = await sdk.store.cart
@@ -454,7 +458,17 @@ export async function placeOrder(cartId?: string) {
       revalidateTag(cartCacheTag)
       return cartRes
     })
-    .catch(medusaError)
+    .catch((err) => {
+      try {
+        medusaError(err)
+      } catch (e: any) {
+        return { type: "error", error: e.message } as const
+      }
+    })
+
+  if (cartRes?.type === "error") {
+    return cartRes.error
+  }
 
   if (cartRes?.type === "order") {
     const countryCode =
