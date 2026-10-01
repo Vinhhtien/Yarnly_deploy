@@ -10,7 +10,7 @@ type MedusaError = {
 }
 
 export default function medusaError(error: unknown): never {
-  const err = error as MedusaError
+  const err = error as any
   if (err.response) {
     const u = new URL(err.config?.url ?? "", err.config?.baseURL ?? "")
     console.error("Resource:", u.toString())
@@ -27,7 +27,11 @@ export default function medusaError(error: unknown): never {
     throw new Error(message.charAt(0).toUpperCase() + message.slice(1) + ".")
   } else if (err.request) {
     throw new Error("No response received: " + String(err.request))
+  } else if (err.status && err.message) {
+    // Handle Medusa JS SDK v2 FetchError
+    throw new Error(err.message)
   } else {
-    throw new Error("Error setting up the request: " + err.message)
+    throw new Error(err.message)
   }
 }
+
