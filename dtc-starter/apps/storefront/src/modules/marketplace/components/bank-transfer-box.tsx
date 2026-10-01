@@ -40,6 +40,7 @@ export default function BankTransferBox({ order }: { order: MarketplaceOrder }) 
   const { toast } = useFeedback()
   const secondsLeft = useSecondsLeft(order.payment_deadline)
 
+  // Tự động kiểm tra trạng thái thanh toán mô phỏng (Webhook ảo)
   useEffect(() => {
     if (order.payment_status === "awaiting_transfer") {
       const timer = setTimeout(() => {
@@ -48,11 +49,11 @@ export default function BankTransferBox({ order }: { order: MarketplaceOrder }) 
           if (result.error) {
             toast.error(result.error)
           } else {
-            toast.success("Hệ thống đã xác nhận thanh toán thành công!")
+            toast.success("Hệ thống đã nhận được tiền và xác nhận đơn hàng thành công!")
           }
           router.refresh()
         })
-      }, 5000)
+      }, 15000) // Tăng lên 15 giây để người dùng kịp nhìn thấy mã QR
       return () => clearTimeout(timer)
     }
   }, [order.payment_status, order.order_id, router, toast])
@@ -69,15 +70,6 @@ export default function BankTransferBox({ order }: { order: MarketplaceOrder }) 
     )
   }
 
-  if (order.payment_status === "transfer_submitted") {
-    return (
-      <Notice tone="info">
-        Bạn đã báo chuyển khoản lúc {formatDateTime(order.transfer_submitted_at)}. Yarnly đang kiểm tra giao dịch
-        và sẽ gửi email khi xác nhận.
-      </Notice>
-    )
-  }
-
   if (order.payment_status === "expired" || order.payment_status === "rejected") {
     return (
       <Notice tone="danger">
@@ -89,7 +81,7 @@ export default function BankTransferBox({ order }: { order: MarketplaceOrder }) 
     )
   }
 
-  if (secondsLeft === 0) {
+  if (secondsLeft === 0 && order.payment_status === "awaiting_transfer") {
     return (
       <Notice tone="danger">
         Đã quá 10 phút. Đơn hàng sẽ bị huỷ tự động trong giây lát.
@@ -107,10 +99,21 @@ export default function BankTransferBox({ order }: { order: MarketplaceOrder }) 
 
   return (
     <div className="flex flex-col items-center gap-3 rounded-md border border-amber-200 bg-amber-50 p-6 text-center">
+      
+      {order.payment_status === "transfer_submitted" && (
+        <Notice tone="info">
+          Hệ thống đang xử lý giao dịch. Vui lòng giữ mã QR nếu bạn chưa thanh toán...
+        </Notice>
+      )}
+
       <p className="txt-medium-plus">Quét mã để chuyển khoản tiền hàng</p>
-      <p className="text-3xl font-semibold tabular-nums text-amber-700">
-        {minutes}:{seconds}
-      </p>
+      
+      {order.payment_status === "awaiting_transfer" && (
+        <p className="text-3xl font-semibold tabular-nums text-amber-700">
+          {minutes}:{seconds}
+        </p>
+      )}
+
       {qr && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -133,9 +136,13 @@ export default function BankTransferBox({ order }: { order: MarketplaceOrder }) 
         Số tiền: <strong>{formatVnd(amount)}</strong> · Nội dung:{" "}
         <strong>{order.transfer_content}</strong>
       </p>
-      <p className="txt-medium text-amber-700 animate-pulse mt-2">
-        Hệ thống đang chờ nhận thanh toán... (Tự động giả lập sau 5 giây)
-      </p>
+      
+      {order.payment_status === "awaiting_transfer" && (
+        <p className="txt-medium text-amber-700 animate-pulse mt-2">
+          Hệ thống đang tự động quét biến động số dư... (Chờ 15s)
+        </p>
+      )}
+      
       <p className="txt-small text-ui-fg-subtle">
         Phí ship trả cho đơn vị vận chuyển khi nhận hàng.
       </p>
