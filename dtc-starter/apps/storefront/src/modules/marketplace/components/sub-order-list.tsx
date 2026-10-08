@@ -15,16 +15,19 @@ import { useFeedback } from "@modules/common/components/feedback"
 import { useTransition } from "react"
 
 const Hint = ({ subOrder }: { subOrder: CustomerSubOrder }) => {
+  // The shop this part of the order comes from.
+  const shop = subOrder.artisan?.shop_name ?? "Shop"
+
   switch (subOrder.status) {
     case "pending_payment":
       return <>Chờ bạn chuyển khoản.</>
     case "pending_acceptance":
-      return <>Nghệ nhân sẽ xác nhận trước {formatDateTime(subOrder.accept_deadline)}.</>
+      return <>{shop} sẽ xác nhận trước {formatDateTime(subOrder.accept_deadline)}.</>
     case "processing":
       return subOrder.due_date ? (
-        <>Nghệ nhân đang làm, dự kiến xong trước {formatDate(subOrder.due_date)}.</>
+        <>{shop} đang làm, dự kiến xong trước {formatDate(subOrder.due_date)}.</>
       ) : (
-        <>Nghệ nhân đang chuẩn bị hàng.</>
+        <>{shop} đang chuẩn bị hàng.</>
       )
     case "ready_to_ship":
       return <>Đã làm xong, Yarnly đang tạo đơn vận chuyển.</>
@@ -41,10 +44,7 @@ const Hint = ({ subOrder }: { subOrder: CustomerSubOrder }) => {
           )}
           {subOrder.carrier_status_label && ` · ${subOrder.carrier_status_label}`}
           {subOrder.expected_delivery_at && ` · dự kiến giao ${formatDate(subOrder.expected_delivery_at)}`}
-          {". "}
-          {subOrder.shipping_fee
-            ? `Phí ship ${formatVnd(subOrder.shipping_fee)} trả cho shipper khi nhận.`
-            : "Phí ship trả khi nhận."}
+          {"."}
         </>
       )
     case "delivered":
@@ -95,7 +95,9 @@ const SubOrderCard = ({ subOrder }: { subOrder: CustomerSubOrder }) => {
         <span
           className={`rounded-full px-3 py-1 txt-small-plus ${SUB_ORDER_BADGE[subOrder.status]}`}
         >
-          {subOrder.status_label}
+          {subOrder.status === "pending_acceptance"
+            ? `Chờ ${subOrder.artisan?.shop_name ?? "shop"} xác nhận`
+            : subOrder.status_label}
         </span>
       </div>
       <ul className="mt-3 flex flex-col gap-1 txt-medium">
@@ -111,6 +113,10 @@ const SubOrderCard = ({ subOrder }: { subOrder: CustomerSubOrder }) => {
           </li>
         ))}
       </ul>
+      <p className="mt-1 flex justify-between gap-4 txt-medium text-ui-fg-subtle">
+        <span>Phí ship GHN</span>
+        <span>{formatVnd(subOrder.shipping_charged)}</span>
+      </p>
       <p className="mt-3 txt-small text-ui-fg-subtle">
         <Hint subOrder={subOrder} />
       </p>

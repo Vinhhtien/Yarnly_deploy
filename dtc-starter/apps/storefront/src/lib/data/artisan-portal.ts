@@ -226,9 +226,15 @@ export async function listArtisanCategories() {
     .catch(() => [])
 }
 
-export async function listArtisanSubOrders(status?: string) {
+/** `custom`: only custom-made sub-orders (true) or only the others (false). */
+export async function listArtisanSubOrders(status?: string, custom?: boolean) {
+  const params = new URLSearchParams()
+  if (status) params.set("status", status)
+  if (custom !== undefined) params.set("custom", String(custom))
+  const query = params.toString()
+
   return artisanFetch<{ sub_orders: ArtisanSubOrder[] }>(
-    `/sub-orders${status ? `?status=${status}` : ""}`
+    `/sub-orders${query ? `?${query}` : ""}`
   )
     .then(({ sub_orders }) => sub_orders)
     .catch(() => [] as ArtisanSubOrder[])

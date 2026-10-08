@@ -267,7 +267,7 @@ export async function customerCancelSubOrder(
   assertStatus(
     subOrder,
     ["pending_payment", "pending_acceptance"],
-    "nghệ nhân đã nhận đơn nên không thể tự huỷ"
+    `${subOrder.artisan.shop_name} đã nhận đơn nên không thể tự huỷ`
   )
 
   await cancelSubOrder(container, subOrderId, "customer", "Khách hàng huỷ đơn")
@@ -278,14 +278,14 @@ export async function cancelOverdueAcceptances(container: MedusaContainer) {
   const overdue = await service(container).listSubOrders({
     status: "pending_acceptance",
     accept_deadline: { $lt: new Date() },
-  })
+  }, { relations: ["artisan"] })
 
   for (const subOrder of overdue) {
     await cancelSubOrder(
       container,
       subOrder.id,
       "system",
-      "Nghệ nhân không xác nhận đơn trong 12 tiếng"
+      `${subOrder.artisan.shop_name} không xác nhận đơn trong 12 tiếng`
     )
   }
 
@@ -329,7 +329,12 @@ export async function declineSubOrder(
   assertOwner(subOrder, artisanId)
   assertStatus(subOrder, ["pending_acceptance"], "không ở trạng thái chờ xác nhận")
 
-  await cancelSubOrder(container, subOrderId, "artisan", `Nghệ nhân từ chối: ${reason}`)
+  await cancelSubOrder(
+    container,
+    subOrderId,
+    "artisan",
+    `${subOrder.artisan.shop_name} từ chối: ${reason}`
+  )
 }
 
 export async function markReadyToShip(

@@ -11,9 +11,11 @@ const fieldClass =
 /** "Yêu cầu làm riêng": the artisan answers once with a price and making time. */
 export default function CustomRequestForm({
   productId,
+  shopName,
   isLoggedIn,
 }: {
   productId: string
+  shopName: string
   isLoggedIn: boolean
 }) {
   const [open, setOpen] = useState(false)
@@ -28,7 +30,7 @@ export default function CustomRequestForm({
         <LocalizedClientLink href="/account" className="text-violet-700 underline">
           Đăng nhập
         </LocalizedClientLink>{" "}
-        để gửi yêu cầu cho nghệ nhân.
+        để gửi yêu cầu cho {shopName}.
       </p>
     )
   }
@@ -36,7 +38,7 @@ export default function CustomRequestForm({
   if (sent) {
     return (
       <p className="rounded-md bg-emerald-50 p-3 txt-small text-emerald-800">
-        Đã gửi yêu cầu. Nghệ nhân sẽ báo giá và thời gian làm, bạn xem trong{" "}
+        Đã gửi yêu cầu. {shopName} sẽ báo giá và thời gian làm, bạn xem trong{" "}
         <LocalizedClientLink href="/account/yeu-cau-lam-rieng" className="underline">
           Tài khoản → Yêu cầu làm riêng
         </LocalizedClientLink>

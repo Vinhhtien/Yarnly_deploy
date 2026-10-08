@@ -51,12 +51,12 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                       ? `Chuyển khoản ${convertToLocale({
                           amount: payment.amount,
                           currency_code: order.currency_code,
-                        })} tiền hàng – xem trạng thái ở mục Tình trạng đơn hàng`
+                        })} (tiền hàng + phí ship) – xem trạng thái ở mục Tình trạng đơn hàng`
                       : chosenMethod === "manual_cod"
                         ? `Trả ${convertToLocale({
                             amount: payment.amount,
                             currency_code: order.currency_code,
-                          })} + phí ship khi nhận hàng`
+                          })} (tiền hàng + phí ship) khi nhận hàng`
                         : `${convertToLocale({
                             amount: payment.amount,
                             currency_code: order.currency_code,

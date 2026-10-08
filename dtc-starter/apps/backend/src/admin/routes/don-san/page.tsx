@@ -29,6 +29,8 @@ type SubOrder = {
   code: string
   status: string
   subtotal: number
+  // Shipping the customer paid at checkout for this parcel.
+  shipping_charged: number | null
   is_custom: boolean
   due_date: string | null
   accept_deadline: string | null
@@ -63,7 +65,13 @@ type MarketplaceOrder = {
   payment_deadline: string | null
   transfer_submitted_at: string | null
   created_at: string
-  sub_orders: { id: string; code: string; status: string; subtotal: number }[]
+  sub_orders: {
+    id: string
+    code: string
+    status: string
+    subtotal: number
+    shipping_charged: number | null
+  }[]
 }
 
 const useRefresh = () => {
@@ -84,6 +92,10 @@ const useAction = () => {
     onError: (error: Error) => toast.error(error.message),
   })
 }
+
+/** What the customer pays for a sub-order: goods + the shipping charged. */
+const paid = (sub: { subtotal: number; shipping_charged: number | null }) =>
+  Number(sub.subtotal) + Number(sub.shipping_charged ?? 0)
 
 const Empty = ({ children }: { children: string }) => (
   <Text className="p-6 text-ui-fg-subtle">{children}</Text>
@@ -141,7 +153,7 @@ const TransfersTab = () => {
         {data.orders.map((order) => {
           const amount = order.sub_orders
             .filter((sub) => sub.status !== "canceled")
-            .reduce((sum, sub) => sum + Number(sub.subtotal), 0)
+            .reduce((sum, sub) => sum + paid(sub), 0)
           const status = PAYMENT_STATUS[order.payment_status]
 
           return (
@@ -345,8 +357,8 @@ const ReadyToShipTab = () => {
             </Table.Cell>
             <Table.Cell>
               {sub.marketplace_order.payment_method === "cod"
-                ? `${formatVnd(sub.subtotal)} + ship`
-                : "Chỉ phí ship"}
+                ? `Thu ${formatVnd(paid(sub))}`
+                : "Đã trả trước – không thu"}
             </Table.Cell>
             <Table.Cell>
               <div className="flex flex-col gap-y-2">
@@ -500,7 +512,7 @@ const RefundsTab = () => {
           <Table.Row key={sub.id}>
             <Table.Cell>{sub.code}</Table.Cell>
             <Table.Cell>{sub.marketplace_order.email}</Table.Cell>
-            <Table.Cell>{formatVnd(sub.subtotal)}</Table.Cell>
+            <Table.Cell>{formatVnd(paid(sub))}</Table.Cell>
             <Table.Cell>{sub.cancel_reason}</Table.Cell>
             <Table.Cell>
               <Button
@@ -557,7 +569,12 @@ const AllSubOrdersTab = () => {
               <Table.Cell>
                 <ItemsCell subOrder={sub} />
               </Table.Cell>
-              <Table.Cell>{formatVnd(sub.subtotal)}</Table.Cell>
+              <Table.Cell>
+                {formatVnd(sub.subtotal)}
+                <Text size="xsmall" className="text-ui-fg-subtle">
+                  + ship {formatVnd(sub.shipping_charged ?? 0)}
+                </Text>
+              </Table.Cell>
               <Table.Cell>
                 <StatusBadge color={status?.color ?? "grey"}>
                   {status?.label ?? sub.status}

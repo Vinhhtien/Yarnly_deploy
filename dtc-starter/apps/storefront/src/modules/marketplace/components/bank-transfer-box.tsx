@@ -39,6 +39,9 @@ export default function BankTransferBox({ order }: { order: MarketplaceOrder }) 
   const [pending, startTransition] = useTransition()
   const { toast } = useFeedback()
   const secondsLeft = useSecondsLeft(order.payment_deadline)
+  const shops = Array.from(
+    new Set(order.sub_orders.map((sub) => sub.artisan?.shop_name).filter(Boolean))
+  ).join(", ")
 
   // Tự động kiểm tra trạng thái thanh toán mô phỏng (Webhook ảo)
   useEffect(() => {
@@ -65,7 +68,7 @@ export default function BankTransferBox({ order }: { order: MarketplaceOrder }) 
   if (order.payment_status === "paid" || order.payment_status === "transfer_submitted") {
     return (
       <Notice tone="success">
-        Yarnly đã nhận tiền chuyển khoản lúc {formatDateTime(order.paid_at || order.transfer_submitted_at || new Date().toISOString())}. Đơn đã được gửi tới nghệ nhân.
+        Yarnly đã nhận tiền chuyển khoản lúc {formatDateTime(order.paid_at || order.transfer_submitted_at || new Date().toISOString())}. Đơn đã được gửi tới {shops}.
       </Notice>
     )
   }
@@ -143,7 +146,7 @@ export default function BankTransferBox({ order }: { order: MarketplaceOrder }) 
       )}
       
       <p className="txt-small text-ui-fg-subtle">
-        Phí ship trả cho đơn vị vận chuyển khi nhận hàng.
+        Số tiền gồm tiền hàng và phí ship GHN.
       </p>
     </div>
   )

@@ -114,7 +114,7 @@ export type GhnOrderInput = {
     district_id: number
   }
   items: { name: string; quantity: number; price: number; weight: number }[]
-  /** What the shipper collects for the goods (COD); 0 when already paid. */
+  /** What the shipper collects (COD: goods + shipping); 0 when prepaid. */
   cod_amount: number
   insurance_value: number
   content: string
@@ -133,8 +133,9 @@ const toGhnPayload = (input: GhnOrderInput) => {
   )
 
   return {
-    // The receiver pays the shipping fee on delivery (agreed business rule).
-    payment_type_id: 2,
+    // Yarnly pays GHN: the customer paid shipping at checkout (or pays it
+    // to the shipper together with the goods, inside cod_amount).
+    payment_type_id: 1,
     required_note: "CHOXEMHANGKHONGTHU",
     service_type_id: 2,
     client_order_code: input.client_order_code,
@@ -204,9 +205,56 @@ export const GHN_STATUS_LABELS: Record<string, string> = {
   return_sorting: "Đang trả hàng",
   returning: "Đang trả hàng",
   return_fail: "Trả hàng thất bại",
-  returned: "Đã trả hàng về nghệ nhân",
+  returned: "Đã trả hàng về shop",
   cancel: "Vận đơn đã huỷ",
   exception: "Có sự cố",
   damage: "Hàng bị hư hỏng",
   lost: "Hàng bị thất lạc",
+}
+
+// ---- Shipping fee quotes ----------------------------------------------------
+
+export type GhnFeeInput = {
+  /** Pickup; GHN uses the shop's registered address when left out. */
+  from_district_id?: number | null
+  from_ward_code?: string | null
+  to_district_id: number
+  to_ward_code: string
+  /** Grams. */
+  weight: number
+  insurance_value: number
+}
+
+// The same parcel is quoted on every cart change and again when the order is
+// split: keep quotes for 15 minutes so both see the same fee.
+const FEE_TTL = 15 * 60 * 1000
+const feeCache = new Map<string, { at: number; fee: number }>()
+
+/** GHN's fee for one parcel, paid by Yarnly (the customer paid it at checkout). */
+export async function quoteGhnFee(input: GhnFeeInput): Promise<number> {
+  const body = {
+    service_type_id: 2,
+    ...(input.from_district_id ? { from_district_id: Number(input.from_district_id) } : {}),
+    ...(input.from_district_id && input.from_ward_code
+      ? { from_ward_code: String(input.from_ward_code) }
+      : {}),
+    to_district_id: Number(input.to_district_id),
+    to_ward_code: String(input.to_ward_code),
+    weight: Math.max(Math.round(input.weight), 100),
+    length: 20,
+    width: 20,
+    height: 10,
+    insurance_value: Math.min(Math.round(input.insurance_value), 5_000_000),
+  }
+  const key = JSON.stringify(body)
+  const cached = feeCache.get(key)
+
+  if (cached && Date.now() - cached.at < FEE_TTL) {
+    return cached.fee
+  }
+
+  const { total } = await ghnRequest<{ total: number }>("/v2/shipping-order/fee", { body })
+  feeCache.set(key, { at: Date.now(), fee: total })
+
+  return total
 }

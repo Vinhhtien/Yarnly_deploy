@@ -7,13 +7,14 @@
  * - creates the house shop "Xưởng len Yarnly" with a login for testing
  * - gives every product without an artisan to that shop and marks it ready-made
  *   (cardigans and bags become made-to-order, to demo both flows)
- * - leaves one free shipping option: shipping is paid to the carrier on delivery
+ * - leaves one shipping option: GHN, quoted per parcel and paid at checkout
  */
 import { randomBytes } from "crypto"
 import type { ExecArgs } from "@medusajs/framework/types"
 import {
   ContainerRegistrationKeys,
   Modules,
+  ShippingOptionPriceType,
 } from "@medusajs/framework/utils"
 import {
   deleteShippingOptionsWorkflow,
@@ -22,6 +23,7 @@ import {
   updateShippingOptionsWorkflow,
 } from "@medusajs/medusa/core-flows"
 import { HOUSE_ARTISAN_HANDLE } from "../lib/marketplace/constants"
+import { GHN_OPTION_NAME } from "./ghn-shipping-at-checkout"
 import { MARKETPLACE_MODULE } from "../modules/marketplace"
 import type MarketplaceModuleService from "../modules/marketplace/service"
 
@@ -130,7 +132,7 @@ export default async function setupMarketplace({ container }: ExecArgs) {
 
   logger.info(`Checked ${products.length} products`)
 
-  // ---- Shipping: one free option, the carrier collects on delivery ---------
+  // ---- Shipping: one option; GHN quotes it at checkout ---------------------
   const { data: shippingOptions } = await query.graph({
     entity: "shipping_option",
     fields: ["id", "name", "provider_id"],
@@ -145,13 +147,17 @@ export default async function setupMarketplace({ container }: ExecArgs) {
   if (keep) {
     await updateShippingOptionsWorkflow(container).run({
       input: [
-        {
-          id: keep.id,
-          name: (keep as any).provider_id?.includes("ghn")
-            ? "Giao Hàng Nhanh (GHN) – phí ship trả khi nhận hàng"
-            : "Giao hàng tiêu chuẩn (phí ship trả khi nhận hàng)",
-          prices: [{ currency_code: "vnd", amount: 0 }],
-        },
+        (keep as any).provider_id?.includes("ghn")
+          ? {
+              id: keep.id,
+              name: GHN_OPTION_NAME,
+              price_type: ShippingOptionPriceType.CALCULATED,
+            }
+          : {
+              id: keep.id,
+              name: "Giao hàng tiêu chuẩn (phí ship trả khi nhận hàng)",
+              prices: [{ currency_code: "vnd", amount: 0 }],
+            },
       ],
     })
 

@@ -1,6 +1,5 @@
 import { listArtisanSubOrders } from "@lib/data/artisan-portal"
-import { SUB_ORDER_BADGE, formatDateTime, formatVnd } from "@lib/util/vn-format"
-import SubOrderNextStep from "@modules/artisan-portal/components/sub-order-summary"
+import SubOrderCard from "@modules/artisan-portal/components/sub-order-card"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { clx } from "@modules/common/components/ui"
 
@@ -14,15 +13,25 @@ const TABS = [
   { status: "canceled", label: "Đã huỷ" },
 ]
 
+/** Orders for listed products; custom-made ones live in "Đơn làm riêng". */
 export default async function ArtisanOrdersPage(props: {
   searchParams: Promise<{ status?: string }>
 }) {
   const { status = "" } = await props.searchParams
-  const subOrders = await listArtisanSubOrders(status || undefined)
+  const subOrders = await listArtisanSubOrders(status || undefined, false)
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl-semi">Đơn hàng</h1>
+      <div>
+        <h1 className="text-2xl-semi">Đơn hàng có sẵn</h1>
+        <p className="txt-small text-ui-fg-subtle">
+          Đơn đặt sản phẩm đang bán. Đơn làm theo yêu cầu riêng xem ở{" "}
+          <LocalizedClientLink href="/kenh-nghe-nhan/don-lam-rieng" className="text-violet-700 underline">
+            Đơn làm riêng
+          </LocalizedClientLink>
+          .
+        </p>
+      </div>
       <div className="flex flex-wrap gap-2">
         {TABS.map((tab) => (
           <LocalizedClientLink
@@ -43,35 +52,7 @@ export default async function ArtisanOrdersPage(props: {
         <ul className="flex flex-col gap-3">
           {subOrders.map((subOrder) => (
             <li key={subOrder.id}>
-              <LocalizedClientLink
-                href={`/kenh-nghe-nhan/don-hang/${subOrder.id}`}
-                className="flex flex-col gap-2 rounded-lg border border-gray-200 bg-white p-4 hover:border-violet-300"
-              >
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="txt-medium-plus">
-                    Đơn {subOrder.code}
-                    {subOrder.is_custom && (
-                      <span className="ml-2 txt-small text-violet-700">Làm riêng</span>
-                    )}
-                  </span>
-                  <span className={`rounded-full px-3 py-1 txt-small-plus ${SUB_ORDER_BADGE[subOrder.status]}`}>
-                    {subOrder.status_label}
-                  </span>
-                </div>
-                <p className="txt-medium">
-                  {subOrder.items.map((item) => `${item.quantity} × ${item.title}`).join(", ")}
-                </p>
-                <div className="flex flex-wrap justify-between gap-2 txt-small text-ui-fg-subtle">
-                  <span>
-                    <SubOrderNextStep subOrder={subOrder} />
-                  </span>
-                  <span>
-                    {formatVnd(subOrder.subtotal)} ·{" "}
-                    {subOrder.payment_method === "cod" ? "COD" : "Đã chuyển khoản"} ·{" "}
-                    {formatDateTime(subOrder.created_at)}
-                  </span>
-                </div>
-              </LocalizedClientLink>
+              <SubOrderCard subOrder={subOrder} />
             </li>
           ))}
         </ul>

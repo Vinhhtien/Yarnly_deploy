@@ -15,12 +15,16 @@ export default async function MarketplaceOrderPanel({ orderId }: { orderId: stri
     )
   }
 
+  const shops = Array.from(
+    new Set(order.sub_orders.map((sub) => sub.artisan?.shop_name).filter(Boolean))
+  ).join(", ")
+
   return (
     <div className="flex flex-col gap-4" data-testid="marketplace-order">
       <BankTransferBox order={order} />
       <Heading level="h2" className="text-2xl-regular">
         {order.sub_orders.length > 1
-          ? `Đơn được chia cho ${order.sub_orders.length} nghệ nhân, giao riêng từng phần`
+          ? `Đơn gồm ${order.sub_orders.length} gói từ ${shops}, giao riêng từng gói`
           : "Tình trạng đơn hàng"}
       </Heading>
       <SubOrderList subOrders={order.sub_orders} />

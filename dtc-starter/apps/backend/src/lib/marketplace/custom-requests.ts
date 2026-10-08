@@ -84,7 +84,7 @@ export async function createCustomRequest(
       `Khách ${escapeHtml(request.customer_name ?? customer.email)} muốn đặt làm riêng <b>${escapeHtml(product.title)}</b> (${request.quantity} cái).`
     ) +
       paragraph(`Mô tả: ${escapeHtml(request.description)}`) +
-      link(`${STOREFRONT_URL}/kenh-nghe-nhan/yeu-cau`, "Trả lời yêu cầu")
+      link(`${STOREFRONT_URL}/kenh-nghe-nhan/don-lam-rieng`, "Trả lời yêu cầu")
   )
 
   return request
@@ -103,10 +103,10 @@ export async function respondToCustomRequest(
   }
 ) {
   const marketplace = service(container)
-  const [request] = await marketplace.listCustomRequests({
-    id: requestId,
-    artisan_id: artisanId,
-  })
+  const [request] = await marketplace.listCustomRequests(
+    { id: requestId, artisan_id: artisanId },
+    { relations: ["artisan"] }
+  )
 
   if (!request) {
     throw notFound()
@@ -136,8 +136,8 @@ export async function respondToCustomRequest(
     container,
     request.customer_email,
     input.accept
-      ? `Nghệ nhân đã báo giá yêu cầu làm riêng: ${request.product_title}`
-      : `Nghệ nhân từ chối yêu cầu làm riêng: ${request.product_title}`,
+      ? `${request.artisan.shop_name} đã báo giá yêu cầu làm riêng: ${request.product_title}`
+      : `${request.artisan.shop_name} từ chối yêu cầu làm riêng: ${request.product_title}`,
     (input.accept
       ? paragraph(
           `Giá: <b>${formatVnd(Number(input.price) * request.quantity)}</b> cho ${request.quantity} cái (${formatVnd(input.price)}/cái), thời gian làm: <b>${input.lead_days} ngày</b>. Bạn có thể đồng ý hoặc từ chối.`

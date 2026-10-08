@@ -17,7 +17,6 @@ export default async function ProductArtisanBlock({ productId }: { productId: st
   return (
     <div className="flex flex-col gap-3 rounded-md border border-gray-200 p-4">
       <div>
-        <p className="txt-small text-ui-fg-subtle">Nghệ nhân</p>
         <LocalizedClientLink
           href={`/nghe-nhan/${info.artisan.handle}`}
           className="txt-medium-plus text-violet-700 hover:underline"
@@ -37,9 +36,13 @@ export default async function ProductArtisanBlock({ productId }: { productId: st
           : "Hàng có sẵn"}
       </span>
       <p className="txt-small text-ui-fg-subtle">
-        Nghệ nhân xác nhận đơn trong 12 tiếng. Phí ship trả khi nhận hàng.
+        {info.artisan.shop_name} xác nhận đơn trong 12 tiếng. Phí ship GHN tính khi thanh toán.
       </p>
-      <CustomRequestForm productId={productId} isLoggedIn={!!customer} />
+      <CustomRequestForm
+        productId={productId}
+        shopName={info.artisan.shop_name}
+        isLoggedIn={!!customer}
+      />
     </div>
   )
 }

@@ -37,6 +37,8 @@ const common = (sub: any) => ({
   made_to_order: sub.made_to_order,
   lead_days: sub.lead_days,
   subtotal: toNumber(sub.subtotal),
+  // Paid by the customer at checkout for this parcel.
+  shipping_charged: toNumber(sub.shipping_charged ?? 0),
   carrier: sub.carrier,
   tracking_number: sub.tracking_number,
   tracking_url:
@@ -86,6 +88,13 @@ export const subOrderForCustomer = (sub: any) => ({
   artisan: publicArtisan(sub.artisan),
 })
 
+const activeSubOrders = (order: any) =>
+  (order.sub_orders ?? []).filter((sub: any) => sub.status !== "canceled")
+
+/** What the customer pays for one sub-order: its goods and its shipping. */
+export const subOrderAmount = (sub: any) =>
+  toNumber(sub.subtotal) + toNumber(sub.shipping_charged ?? 0)
+
 export const marketplaceOrderForCustomer = (order: any, settings?: any) => ({
   id: order.id,
   order_id: order.order_id,
@@ -96,10 +105,15 @@ export const marketplaceOrderForCustomer = (order: any, settings?: any) => ({
   transfer_submitted_at: order.transfer_submitted_at,
   paid_at: order.paid_at,
   items_total: toNumber(order.items_total),
-  // What is still owed by transfer: canceled sub-orders drop out.
-  amount_to_transfer: (order.sub_orders ?? [])
-    .filter((sub: any) => sub.status !== "canceled")
-    .reduce((sum: number, sub: any) => sum + toNumber(sub.subtotal), 0),
+  shipping_total: activeSubOrders(order).reduce(
+    (sum: number, sub: any) => sum + toNumber(sub.shipping_charged ?? 0),
+    0
+  ),
+  // What is still owed by transfer (goods + shipping): canceled sub-orders drop out.
+  amount_to_transfer: activeSubOrders(order).reduce(
+    (sum: number, sub: any) => sum + subOrderAmount(sub),
+    0
+  ),
   transfer_content: `YARNLY ${order.display_id}`,
   bank: settings
     ? {

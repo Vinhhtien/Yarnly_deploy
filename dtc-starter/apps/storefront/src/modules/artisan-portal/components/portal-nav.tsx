@@ -7,8 +7,8 @@ import { useParams, usePathname } from "next/navigation"
 
 const LINKS = [
   { href: "/kenh-nghe-nhan", label: "Tổng quan" },
-  { href: "/kenh-nghe-nhan/don-hang", label: "Đơn hàng" },
-  { href: "/kenh-nghe-nhan/yeu-cau", label: "Yêu cầu làm riêng" },
+  { href: "/kenh-nghe-nhan/don-hang", label: "Đơn hàng có sẵn" },
+  { href: "/kenh-nghe-nhan/don-lam-rieng", label: "Đơn làm riêng" },
   { href: "/kenh-nghe-nhan/san-pham", label: "Sản phẩm" },
   { href: "/kenh-nghe-nhan/thu-nhap", label: "Thu nhập" },
   { href: "/kenh-nghe-nhan/ho-so", label: "Hồ sơ gian hàng" },

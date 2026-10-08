@@ -31,9 +31,9 @@ const invalid = (message: string) =>
 
 /**
  * Everything GHN needs for one sub-order: pickup at the artisan, delivery to
- * the customer (GHN district/ward saved at checkout) and, for COD, the goods
- * amount the shipper collects for Yarnly. The shipping fee itself is paid by
- * the customer to GHN on delivery.
+ * the customer (GHN district/ward saved at checkout) and, for COD, what the
+ * shipper collects for Yarnly (goods + shipping). Yarnly pays GHN's fee: the
+ * customer paid shipping at checkout.
  */
 async function buildGhnInput(
   container: MedusaContainer,
@@ -107,8 +107,12 @@ async function buildGhnInput(
       price: toNumber(item.unit_price),
       weight: weightOf(item.product_id),
     })),
+    // COD: the shipper collects goods and the shipping the customer was
+    // charged; Yarnly pays GHN's fee itself.
     cod_amount:
-      subOrder.marketplace_order.payment_method === "cod" ? toNumber(subOrder.subtotal) : 0,
+      subOrder.marketplace_order.payment_method === "cod"
+        ? toNumber(subOrder.subtotal) + toNumber((subOrder as any).shipping_charged ?? 0)
+        : 0,
     insurance_value: toNumber(subOrder.subtotal),
     content: `Yarnly đơn ${subOrder.code} – đồ len handmade`,
   }
@@ -233,7 +237,7 @@ export async function handleGhnStatus(
       container,
       subOrder.id,
       "system",
-      "Giao hàng không thành công, GHN đã trả hàng về nghệ nhân"
+      `Giao hàng không thành công, GHN đã trả hàng về ${(await getFullSubOrder(container, subOrder.id)).artisan.shop_name}`
     )
   } else if (status === "cancel" && subOrder.status === "shipping") {
     await backToReadyToShip(container, subOrder.id)

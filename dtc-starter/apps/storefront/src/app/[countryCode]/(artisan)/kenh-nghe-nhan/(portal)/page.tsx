@@ -37,7 +37,7 @@ export default async function ArtisanDashboardPage() {
       </div>
       {dashboard.pending_custom_requests > 0 && (
         <LocalizedClientLink
-          href="/kenh-nghe-nhan/yeu-cau"
+          href="/kenh-nghe-nhan/don-lam-rieng"
           className="rounded-lg border border-violet-200 bg-violet-50 p-4 txt-medium"
         >
           Bạn có <strong>{dashboard.pending_custom_requests}</strong> yêu cầu làm riêng chờ báo giá →

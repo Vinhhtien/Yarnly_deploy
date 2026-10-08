@@ -9,12 +9,19 @@ import {
   ACCEPT_WINDOW_HOURS,
   DAY,
   HOUR,
-  HOUSE_ARTISAN_HANDLE,
   MINUTE,
   PAYMENT_WINDOW_MINUTES,
 } from "./constants"
 import { addMs } from "./format"
 import { toNumber } from "./numbers"
+import {
+  type Parcel,
+  ghnDestination,
+  groupIntoParcels,
+  itemTotal,
+  quoteParcels,
+  splitCharged,
+} from "./parcels"
 
 type OrderItem = {
   id: string
@@ -50,6 +57,44 @@ export const startState = (
       }
 
 /**
+ * What each parcel's customer paid for shipping. Checkout charged one total
+ * for all parcels; it is shared out by a fresh GHN quote (cached, so normally
+ * the very same fees), always adding up to exactly the amount charged.
+ */
+async function shareShipping(
+  container: MedusaContainer,
+  order: any,
+  items: OrderItem[],
+  parcels: Parcel<OrderItem>[]
+) {
+  const logger = container.resolve(ContainerRegistrationKeys.LOGGER)
+  const charged = ((order.shipping_methods ?? []) as { amount: unknown }[]).reduce(
+    (sum, method) => sum + toNumber(method.amount),
+    0
+  )
+
+  if (!charged) {
+    return parcels.map(() => 0)
+  }
+
+  const to = ghnDestination(order.metadata)
+  let quotes = parcels.map(() => 0)
+
+  if (to) {
+    try {
+      const { parcels: quoted } = await quoteParcels(container, items, to)
+      quotes = parcels.map((parcel) => quoted.find((q) => q.key === parcel.key)?.fee ?? 0)
+    } catch (error) {
+      logger.warn(
+        `Order ${order.id}: GHN quote failed, shipping shared evenly: ${(error as Error).message}`
+      )
+    }
+  }
+
+  return splitCharged(charged, quotes)
+}
+
+/**
  * Creates the marketplace order and one sub-order per artisan for a placed
  * Medusa order. Custom-request items get a sub-order of their own. Safe to
  * call more than once: an existing marketplace order is returned as is.
@@ -61,7 +106,6 @@ export async function ensureMarketplaceOrder(
   const marketplace: MarketplaceModuleService =
     container.resolve(MARKETPLACE_MODULE)
   const query = container.resolve(ContainerRegistrationKeys.QUERY)
-  const logger = container.resolve(ContainerRegistrationKeys.LOGGER)
 
   const [existing] = await marketplace.listMarketplaceOrders({
     order_id: orderId,
@@ -86,6 +130,7 @@ export async function ensureMarketplaceOrder(
       "items.*",
       "items.total",
       "shipping_address.*",
+      "shipping_methods.amount",
     ],
     filters: { id: orderId },
   })
@@ -95,60 +140,10 @@ export async function ensureMarketplaceOrder(
   }
 
   const items = (order.items ?? []) as unknown as OrderItem[]
-  const productIds = [
-    ...new Set(items.map((item) => item.product_id).filter(Boolean)),
-  ] as string[]
+  const { parcels: groups, productById } = await groupIntoParcels(container, items)
+  const shippingCharged = await shareShipping(container, order, items, groups)
 
-  const products: any[] = productIds.length
-    ? (
-        await query.graph({
-          entity: "product",
-          fields: ["id", "metadata", "artisan.id"],
-          filters: { id: productIds },
-          withDeleted: true,
-        })
-      ).data
-    : []
-
-  const productById = new Map<string, any>(
-    products.map((product) => [product.id, product])
-  )
-  const [houseArtisan] = await marketplace.listArtisans({
-    handle: HOUSE_ARTISAN_HANDLE,
-  })
-
-  type Group = {
-    artisan_id: string
-    custom_request_id: string | null
-    items: OrderItem[]
-  }
-  const groups = new Map<string, Group>()
-
-  for (const item of items) {
-    const product = productById.get(item.product_id ?? "")
-    const artisanId = product?.artisan?.id ?? houseArtisan?.id
-
-    if (!artisanId) {
-      logger.error(
-        `Order ${order.id}: item ${item.id} has no artisan and there is no house artisan`
-      )
-      continue
-    }
-
-    const customRequestId =
-      (item.metadata?.custom_request_id as string | undefined) ?? null
-    const key = customRequestId ? `custom:${customRequestId}` : artisanId
-    const group: Group = groups.get(key) ?? {
-      artisan_id: artisanId,
-      custom_request_id: customRequestId,
-      items: [],
-    }
-
-    group.items.push(item)
-    groups.set(key, group)
-  }
-
-  const customRequestIds = [...groups.values()]
+  const customRequestIds = groups
     .map((group) => group.custom_request_id)
     .filter(Boolean) as string[]
   const customRequests = customRequestIds.length
@@ -159,7 +154,7 @@ export async function ensureMarketplaceOrder(
   const now = new Date()
   const address = order.shipping_address
 
-  const subOrders = [...groups.values()].map((group, index) => {
+  const subOrders = groups.map((group, index) => {
     const custom = customRequests.find(
       (request) => request.id === group.custom_request_id
     )
@@ -183,14 +178,8 @@ export async function ensureMarketplaceOrder(
       custom_request_id: custom?.id ?? null,
       made_to_order: madeToOrder,
       lead_days: leadDays,
-      subtotal: group.items.reduce(
-        (sum, item) =>
-          sum +
-          (item.total !== undefined && item.total !== null
-            ? toNumber(item.total)
-            : toNumber(item.unit_price) * item.quantity),
-        0
-      ),
+      subtotal: group.items.reduce((sum, item) => sum + itemTotal(item), 0),
+      shipping_charged: shippingCharged[index],
       shipping_name: address
         ? [address.last_name, address.first_name].filter(Boolean).join(" ")
         : null,
@@ -213,10 +202,7 @@ export async function ensureMarketplaceOrder(
         thumbnail: item.thumbnail ?? null,
         quantity: item.quantity,
         unit_price: toNumber(item.unit_price),
-        total:
-          item.total !== undefined && item.total !== null
-            ? toNumber(item.total)
-            : toNumber(item.unit_price) * item.quantity,
+        total: itemTotal(item),
       })),
     }
 

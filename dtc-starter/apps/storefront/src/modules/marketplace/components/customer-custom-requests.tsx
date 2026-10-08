@@ -17,6 +17,16 @@ const RequestCard = ({ request }: { request: CustomRequest }) => {
   const { countryCode } = useParams() as { countryCode: string }
   const [pending, startTransition] = useTransition()
   const { confirm, toast } = useFeedback()
+  const shop = request.artisan?.shop_name ?? "shop"
+  // Statuses that name the shop answering this request.
+  const label =
+    request.status === "pending"
+      ? `Chờ ${shop} trả lời`
+      : request.status === "quoted"
+        ? `${shop} đã báo giá`
+        : request.status === "artisan_declined"
+          ? `${shop} từ chối`
+          : CUSTOM_REQUEST_LABELS[request.status]
 
   const decide = (accept: boolean) =>
     startTransition(async () => {
@@ -25,7 +35,7 @@ const RequestCard = ({ request }: { request: CustomRequest }) => {
       if (result.error) {
         toast.error(result.error)
       } else if (accept) {
-        toast.success(`Đã thêm "${request.product_title}" vào giỏ với giá nghệ nhân báo`)
+        toast.success(`Đã thêm "${request.product_title}" vào giỏ với giá ${shop} báo`)
         router.push(`/${countryCode}/cart`)
         return
       } else {
@@ -56,7 +66,7 @@ const RequestCard = ({ request }: { request: CustomRequest }) => {
           </p>
         </div>
         <span className="rounded-full bg-gray-100 px-3 py-1 txt-small-plus">
-          {CUSTOM_REQUEST_LABELS[request.status]}
+          {label}
         </span>
       </div>
       <p className="mt-2 txt-medium">

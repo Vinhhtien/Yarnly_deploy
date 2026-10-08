@@ -59,18 +59,30 @@ const Payment = ({
     }
   }
 
+  // Custom-made items are made for this customer only: bank transfer only.
+  const hasCustomItem = !!cart.items?.some((item) => item.metadata?.custom_request_id)
+
   const virtualPaymentMethods = useMemo(() => {
     const methods: { id: string }[] = []
     for (const method of availablePaymentMethods) {
       if (method.id === "pp_system_default") {
-        methods.push({ id: "manual_cod" })
+        if (!hasCustomItem) {
+          methods.push({ id: "manual_cod" })
+        }
         methods.push({ id: "manual_bank" })
       } else {
         methods.push(method)
       }
     }
     return methods
-  }, [availablePaymentMethods])
+  }, [availablePaymentMethods, hasCustomItem])
+
+  // A COD choice saved before a custom item was added is no longer allowed.
+  useEffect(() => {
+    if (hasCustomItem && selectedPaymentMethod === "manual_cod") {
+      setSelectedPaymentMethod("")
+    }
+  }, [hasCustomItem, selectedPaymentMethod])
 
   const paidByGiftcard = !!(
     (cart as unknown as Record<string, unknown>)?.gift_cards && ((cart as unknown as Record<string, unknown>)?.gift_cards as unknown[])?.length > 0 && cart?.total === 0
@@ -195,7 +207,7 @@ const Payment = ({
                               Bạn có <strong>10 phút</strong> để chuyển khoản, nếu không đơn sẽ tự huỷ.
                             </Text>
                             <Text className="txt-medium mt-2 text-ui-fg-subtle">
-                              Phí ship trả cho đơn vị vận chuyển khi nhận hàng.
+                              Số tiền chuyển gồm tiền hàng và phí ship.
                             </Text>
                           </div>
                         )}
@@ -204,6 +216,11 @@ const Payment = ({
                   </div>
                 ))}
               </RadioGroup>
+              {hasCustomItem && (
+                <Text className="txt-small mt-2 text-ui-fg-subtle">
+                  Đơn có hàng làm riêng chỉ thanh toán bằng chuyển khoản.
+                </Text>
+              )}
             </>
           )}
 

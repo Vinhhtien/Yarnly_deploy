@@ -39,7 +39,9 @@ const SubOrder = model.define("sub_order", {
   ready_at: model.dateTime().nullable(),
   carrier: model.text().nullable(),
   tracking_number: model.text().nullable(),
-  // What the carrier charges the customer on delivery, when known (GHN).
+  // What the customer paid for shipping this parcel at checkout (GHN quote).
+  shipping_charged: model.bigNumber().nullable(),
+  // What GHN charges Yarnly for the shipment, once booked.
   shipping_fee: model.bigNumber().nullable(),
   expected_delivery_at: model.dateTime().nullable(),
   // Last status reported by the carrier's webhook, e.g. "delivering".

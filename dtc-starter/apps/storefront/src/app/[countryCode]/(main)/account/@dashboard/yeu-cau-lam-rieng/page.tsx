@@ -15,7 +15,8 @@ export default async function CustomRequestsPage() {
         <h1 className="text-2xl-semi">Yêu cầu làm riêng</h1>
         <p className="text-base-regular">
           Nghệ nhân trả lời một lần bằng giá và thời gian làm. Bạn đồng ý thì món đồ được
-          thêm vào giỏ với giá đã báo.
+          thêm vào giỏ với giá đã báo; phí ship GHN được tính khi thanh toán. Hàng làm
+          riêng chỉ thanh toán bằng chuyển khoản.
         </p>
       </div>
       <CustomerCustomRequests requests={requests} />

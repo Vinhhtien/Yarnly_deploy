@@ -49,6 +49,8 @@ type SubOrderBase = {
   tracking_url: string | null
   carrier_status: string | null
   carrier_status_label: string | null
+  // Paid by the customer at checkout for this parcel (GHN quote).
+  shipping_charged: number
   shipping_fee: number | null
   expected_delivery_at: string | null
   canceled_by: string | null
@@ -101,6 +103,7 @@ export type MarketplaceOrder = {
   transfer_submitted_at: string | null
   paid_at: string | null
   items_total: number
+  shipping_total: number
   amount_to_transfer: number
   transfer_content: string
   bank: {

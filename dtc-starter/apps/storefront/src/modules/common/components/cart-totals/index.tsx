@@ -40,7 +40,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals, paymentMethod }) => {
           <span data-testid="cart-shipping" data-value={shipping_subtotal || 0}>
             {shipping_subtotal
               ? convertToLocale({ amount: shipping_subtotal, currency_code })
-              : "Trả khi nhận hàng"}
+              : "Tính sau khi nhập địa chỉ"}
           </span>
         </div>
         {!!discount_subtotal && (
@@ -79,8 +79,8 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals, paymentMethod }) => {
       </div>
       <p className="txt-small text-ui-fg-subtle">
         {paymentMethod === "manual_bank"
-          ? "Chuyển khoản tiền hàng sau khi đặt; phí ship trả cho đơn vị vận chuyển khi nhận hàng."
-          : "Phí ship do đơn vị vận chuyển thu khi giao. Đồ của mỗi nghệ nhân được giao riêng."}
+          ? "Chuyển khoản tổng tiền (hàng + phí ship) sau khi đặt."
+          : "Phí ship GHN tính theo từng gói: đồ của mỗi nghệ nhân (và mỗi món làm riêng) được giao riêng."}
       </p>
       <div className="h-px w-full border-b border-gray-200 mt-4" />
     </div>

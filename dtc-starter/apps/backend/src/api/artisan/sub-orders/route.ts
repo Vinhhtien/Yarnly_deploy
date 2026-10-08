@@ -8,18 +8,24 @@ import { MARKETPLACE_MODULE } from "../../../modules/marketplace"
 import type MarketplaceModuleService from "../../../modules/marketplace/service"
 
 /**
- * The artisan's sub-orders, optionally one status (`?status=`). Orders still
+ * The artisan's sub-orders, optionally one status (`?status=`) and only
+ * custom-made or only regular ones (`?custom=true|false`). Orders still
  * waiting on the customer's bank transfer are not shown yet.
  */
 export async function GET(req: AuthenticatedMedusaRequest, res: MedusaResponse) {
   const artisan = await getAuthedArtisan(req)
   const marketplace: MarketplaceModuleService = req.scope.resolve(MARKETPLACE_MODULE)
   const status = req.query.status as string | undefined
+  const custom = req.query.custom as string | undefined
 
   // Both lists in parallel: every query is a round trip to the database.
   const [subOrders, customRequests] = await Promise.all([
     marketplace.listSubOrders(
-      { artisan_id: artisan.id, ...(status ? { status: status as any } : {}) },
+      {
+        artisan_id: artisan.id,
+        ...(status ? { status: status as any } : {}),
+        ...(custom === "true" || custom === "false" ? { is_custom: custom === "true" } : {}),
+      },
       {
         relations: ["items", "marketplace_order"],
         order: { created_at: "DESC" },
