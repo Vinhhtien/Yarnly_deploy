@@ -116,6 +116,11 @@ export type GhnOrderInput = {
   items: { name: string; quantity: number; price: number; weight: number }[]
   /** What the shipper collects (COD: goods + shipping); 0 when prepaid. */
   cod_amount: number
+  /**
+   * Orders placed before shipping was charged at checkout: the receiver pays
+   * GHN's fee on delivery, as they were told when ordering.
+   */
+  receiver_pays_shipping?: boolean
   insurance_value: number
   content: string
 }
@@ -133,9 +138,10 @@ const toGhnPayload = (input: GhnOrderInput) => {
   )
 
   return {
-    // Yarnly pays GHN: the customer paid shipping at checkout (or pays it
+    // 1: Yarnly pays GHN, the customer paid shipping at checkout (or pays it
     // to the shipper together with the goods, inside cod_amount).
-    payment_type_id: 1,
+    // 2: the receiver pays GHN (orders from before checkout shipping).
+    payment_type_id: input.receiver_pays_shipping ? 2 : 1,
     required_note: "CHOXEMHANGKHONGTHU",
     service_type_id: 2,
     client_order_code: input.client_order_code,

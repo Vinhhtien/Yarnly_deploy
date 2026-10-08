@@ -49,8 +49,9 @@ type SubOrderBase = {
   tracking_url: string | null
   carrier_status: string | null
   carrier_status_label: string | null
-  // Paid by the customer at checkout for this parcel (GHN quote).
-  shipping_charged: number
+  // Paid by the customer at checkout for this parcel (GHN quote); null for
+  // older orders, whose shipping is paid to the shipper on delivery.
+  shipping_charged: number | null
   shipping_fee: number | null
   expected_delivery_at: string | null
   canceled_by: string | null

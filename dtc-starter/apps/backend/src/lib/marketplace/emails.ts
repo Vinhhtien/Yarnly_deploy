@@ -258,7 +258,12 @@ export async function emailReadyToShip(
       `<h4>Hàng</h4>` +
       itemsTable(sub.items) +
       paragraph(
-        sub.marketplace_order.payment_method === "cod"
+        sub.shipping_charged === null || sub.shipping_charged === undefined
+          ? "Đơn đặt trước khi tính phí ship lúc thanh toán: người nhận trả phí ship cho GHN" +
+              (sub.marketplace_order.payment_method === "cod"
+                ? `, thu hộ COD <b>${formatVnd(sub.subtotal)}</b>.`
+                : ".")
+          : sub.marketplace_order.payment_method === "cod"
           ? `Thu hộ COD: <b>${formatVnd(subOrderAmount(sub))}</b> (tiền hàng + phí ship khách đã chịu). Yarnly trả phí GHN.`
           : "Khách đã trả trước tiền hàng và phí ship: shipper không thu gì. Yarnly trả phí GHN."
       )
@@ -273,8 +278,12 @@ export async function emailShipping(
     sub.carrier === "GHN" && sub.tracking_number
       ? ` – <a href="https://donhang.ghn.vn/?order_code=${encodeURIComponent(sub.tracking_number)}">tra cứu</a>`
       : ""
-  const pay =
-    sub.marketplace_order.payment_method === "cod"
+  const legacy = sub.shipping_charged === null || sub.shipping_charged === undefined
+  const pay = legacy
+    ? sub.marketplace_order.payment_method === "cod"
+      ? `Shipper thu tiền hàng <b>${formatVnd(sub.subtotal)}</b> và phí ship khi giao.`
+      : "Phí ship trả cho shipper khi nhận hàng."
+    : sub.marketplace_order.payment_method === "cod"
       ? `Shipper thu <b>${formatVnd(subOrderAmount(sub))}</b> (tiền hàng + phí ship) khi giao.`
       : "Bạn đã thanh toán tiền hàng và phí ship, shipper không thu thêm."
 

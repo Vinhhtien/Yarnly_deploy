@@ -111,8 +111,12 @@ async function buildGhnInput(
     // charged; Yarnly pays GHN's fee itself.
     cod_amount:
       subOrder.marketplace_order.payment_method === "cod"
-        ? toNumber(subOrder.subtotal) + toNumber((subOrder as any).shipping_charged ?? 0)
+        ? toNumber(subOrder.subtotal) + toNumber(subOrder.shipping_charged ?? 0)
         : 0,
+    // No charged shipping recorded: ordered before shipping was charged at
+    // checkout, so the receiver still pays GHN on delivery.
+    receiver_pays_shipping:
+      subOrder.shipping_charged === null || subOrder.shipping_charged === undefined,
     insurance_value: toNumber(subOrder.subtotal),
     content: `Yarnly đơn ${subOrder.code} – đồ len handmade`,
   }

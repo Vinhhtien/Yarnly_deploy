@@ -37,8 +37,12 @@ const common = (sub: any) => ({
   made_to_order: sub.made_to_order,
   lead_days: sub.lead_days,
   subtotal: toNumber(sub.subtotal),
-  // Paid by the customer at checkout for this parcel.
-  shipping_charged: toNumber(sub.shipping_charged ?? 0),
+  // Paid by the customer at checkout for this parcel; null for orders from
+  // before that, whose shipping is paid to the shipper on delivery.
+  shipping_charged:
+    sub.shipping_charged === null || sub.shipping_charged === undefined
+      ? null
+      : toNumber(sub.shipping_charged),
   carrier: sub.carrier,
   tracking_number: sub.tracking_number,
   tracking_url:

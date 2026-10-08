@@ -115,7 +115,11 @@ const SubOrderCard = ({ subOrder }: { subOrder: CustomerSubOrder }) => {
       </ul>
       <p className="mt-1 flex justify-between gap-4 txt-medium text-ui-fg-subtle">
         <span>Phí ship GHN</span>
-        <span>{formatVnd(subOrder.shipping_charged)}</span>
+        <span>
+          {subOrder.shipping_charged === null
+            ? "Trả cho shipper khi nhận"
+            : formatVnd(subOrder.shipping_charged)}
+        </span>
       </p>
       <p className="mt-3 txt-small text-ui-fg-subtle">
         <Hint subOrder={subOrder} />

@@ -356,9 +356,13 @@ const ReadyToShipTab = () => {
               <ItemsCell subOrder={sub} />
             </Table.Cell>
             <Table.Cell>
-              {sub.marketplace_order.payment_method === "cod"
-                ? `Thu ${formatVnd(paid(sub))}`
-                : "Đã trả trước – không thu"}
+              {sub.shipping_charged === null
+                ? sub.marketplace_order.payment_method === "cod"
+                  ? `Thu ${formatVnd(sub.subtotal)} + ship (đơn cũ)`
+                  : "Chỉ phí ship (đơn cũ)"
+                : sub.marketplace_order.payment_method === "cod"
+                  ? `Thu ${formatVnd(paid(sub))}`
+                  : "Đã trả trước – không thu"}
             </Table.Cell>
             <Table.Cell>
               <div className="flex flex-col gap-y-2">
