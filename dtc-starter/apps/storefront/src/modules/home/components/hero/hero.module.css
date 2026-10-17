@@ -23,8 +23,8 @@
 }
 
 .shade {
-  background: linear-gradient(90deg, #edf5e6ed 0%, #e5f2e3cc 42%, #dceee555 78%),
-    linear-gradient(#e8f4e7b3, transparent 30%, transparent 75%, #f5f1e97a);
+  background: linear-gradient(90deg, #edf5e6c9 0%, #e5f2e3b3 42%, #dceee533 78%),
+    linear-gradient(#e8f4e780, transparent 30%, transparent 75%, #f5f1e955);
 }
 
 .content {
@@ -148,8 +148,8 @@
   }
 
   .shade {
-    background: linear-gradient(90deg, #edf5e6ed, #e5f2e3a8),
-      linear-gradient(#e8f4e7b3, transparent);
+    background: linear-gradient(90deg, #edf5e6c9, #e5f2e38c),
+      linear-gradient(#e8f4e780, transparent);
   }
 
   .credit {
