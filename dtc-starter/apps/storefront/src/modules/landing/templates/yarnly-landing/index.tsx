@@ -5,26 +5,35 @@ import Journey from "@modules/landing/components/journey"
 
 const YarnlyLanding = () => {
   return (
-    <main className="overflow-hidden bg-[var(--yarnly-paper)] text-[var(--yarnly-ink)]">
+    <div className="overflow-hidden bg-[var(--yarnly-paper)] text-[var(--yarnly-ink)]">
       <div className="content-container">
         <nav
           aria-label="Điều hướng trang giới thiệu Yarnly"
           className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 border-b border-[var(--yarnly-line)] py-4 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--yarnly-muted)]"
         >
           <div className="flex flex-wrap gap-x-6 gap-y-2 md:gap-x-8">
-            <a className="transition hover:text-[var(--yarnly-terracotta)]" href="#cau-chuyen">
+            <a
+              className="inline-flex min-h-11 items-center transition hover:text-[var(--yarnly-terracotta)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--yarnly-terracotta)]"
+              href="#cau-chuyen"
+            >
               Câu chuyện
             </a>
-            <a className="transition hover:text-[var(--yarnly-terracotta)]" href="#cach-yarnly-hoat-dong">
+            <a
+              className="inline-flex min-h-11 items-center transition hover:text-[var(--yarnly-terracotta)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--yarnly-terracotta)]"
+              href="#cach-yarnly-hoat-dong"
+            >
               Cách hoạt động
             </a>
-            <a className="transition hover:text-[var(--yarnly-terracotta)]" href="#nghe-nhan">
+            <a
+              className="inline-flex min-h-11 items-center transition hover:text-[var(--yarnly-terracotta)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--yarnly-terracotta)]"
+              href="#nghe-nhan"
+            >
               Dành cho nghệ nhân
             </a>
           </div>
           <LocalizedClientLink
             href="/store"
-            className="inline-flex min-h-10 items-center rounded-full bg-[var(--yarnly-ink)] px-5 text-white transition hover:bg-[var(--yarnly-terracotta)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--yarnly-terracotta)]"
+            className="inline-flex min-h-11 items-center rounded-full bg-[var(--yarnly-ink)] px-5 text-white transition hover:bg-[var(--yarnly-terracotta)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--yarnly-terracotta)]"
           >
             Khám phá Yarnly <span aria-hidden="true" className="ml-2">↗</span>
           </LocalizedClientLink>
@@ -116,7 +125,7 @@ const YarnlyLanding = () => {
                     </figure>
                     <div className="flex flex-1 flex-col justify-between rounded-[1.25rem] bg-[var(--yarnly-olive)] p-4 text-white md:rounded-[1.5rem] md:p-6">
                       <span className="text-xs font-semibold uppercase tracking-[0.15em] text-white/75">
-                        Không sản xuất hàng loạt
+                        Được làm bằng tay
                       </span>
                       <p className="mt-8 font-serif text-2xl leading-tight md:text-3xl">
                         Đẹp vì có người làm ra nó.
@@ -254,7 +263,7 @@ const YarnlyLanding = () => {
           </LocalizedClientLink>
         </div>
       </section>
-    </main>
+    </div>
   )
 }
 
