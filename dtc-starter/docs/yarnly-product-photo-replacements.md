@@ -1,6 +1,6 @@
 # Product photo replacements
 
-Two genuine stock photographs replace the duplicate teddy photo on the demo catalogue. No AI generation or AI image editing was used. Only WebP encoding was applied with Sharp.
+Two genuine stock photographs replace the duplicate teddy photo on the demo catalogue. No AI generation or AI image editing was used. Sharp applies WebP encoding and a conventional crop around the completed bunny in the first photograph so the whole toy remains visible in portrait product cards. The pink photograph preserves its original composition.
 
 | Product handle | Local asset | Photographer and original source |
 | --- | --- | --- |
