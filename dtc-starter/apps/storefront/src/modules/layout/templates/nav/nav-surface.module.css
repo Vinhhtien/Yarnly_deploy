@@ -30,7 +30,7 @@
 
 .surface[data-overlay="true"][data-scrolled="false"]
   .header
-  :global([data-testid^="nav-"]):hover {
+  :global([data-testid^="nav-"]:not([data-testid="nav-menu-popup"])):hover {
   color: #557348;
 }
 
