@@ -329,9 +329,12 @@ export default function YarnlyLanding() {
         </div>
         <figure className={styles.craftVideo}>
           <video
-            controls
+            autoPlay
+            muted
+            loop
+            disablePictureInPicture
             playsInline
-            preload="none"
+            preload="metadata"
             poster="/images/crochet_bear.png"
             aria-label="Quá trình móc len bằng tay"
           >

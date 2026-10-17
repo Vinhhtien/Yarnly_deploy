@@ -1,0 +1,40 @@
+.surface {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 64px;
+}
+
+.surface[data-overlay="true"] {
+  margin-bottom: -64px;
+}
+
+.header {
+  position: relative;
+  height: 64px;
+  border-bottom: 1px solid #dfe2d8;
+  color: #33362f;
+  background: #f5f5f2;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.header > nav {
+  color: inherit;
+}
+
+.surface[data-overlay="true"][data-scrolled="false"] .header {
+  border-color: #ffffff2e;
+  color: white;
+  background: transparent;
+}
+
+.surface[data-overlay="true"][data-scrolled="false"]
+  .header
+  :global([data-testid^="nav-"]):hover {
+  color: #e4edda;
+}
+
+.surface[data-scrolled="true"] .header {
+  background: #f5f5f2f5;
+  backdrop-filter: blur(14px);
+}

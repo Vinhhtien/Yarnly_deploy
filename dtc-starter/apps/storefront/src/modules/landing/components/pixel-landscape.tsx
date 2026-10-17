@@ -45,7 +45,6 @@ export default function PixelLandscape({
   const sceneRef = useRef<HTMLDivElement>(null)
   const id = useId().replace(/:/g, "")
   const [isVisible, setIsVisible] = useState(false)
-  const [isPaused, setIsPaused] = useState(false)
   const isFooter = variant === "footer"
 
   useEffect(() => {
@@ -66,7 +65,7 @@ export default function PixelLandscape({
       <div
         ref={sceneRef}
         className={`${styles.scene} ${isFooter ? styles.footer : ""}`}
-        data-running={isVisible && !isPaused}
+        data-running={isVisible}
         data-testid={`pixel-landscape-${variant}`}
         aria-hidden="true"
       >
@@ -159,28 +158,6 @@ export default function PixelLandscape({
           </svg>
         </div>
       </div>
-      <button
-        type="button"
-        className={`${styles.motionControl} ${
-          isFooter ? styles.footerControl : ""
-        }`}
-        onClick={() => setIsPaused((paused) => !paused)}
-        aria-label={
-          isPaused
-            ? "Phát chuyển động khu vườn"
-            : "Tạm dừng chuyển động khu vườn"
-        }
-        aria-pressed={isPaused}
-      >
-        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-          {isPaused ? (
-            <path d="m5 3 8 5-8 5Z" />
-          ) : (
-            <path d="M4 3h3v10H4Zm5 0h3v10H9Z" />
-          )}
-        </svg>
-        <span>{isPaused ? "Phát cảnh" : "Tạm dừng cảnh"}</span>
-      </button>
     </>
   )
 }

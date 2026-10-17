@@ -2,6 +2,8 @@
 
 Prepared on 2026-10-17 for the homepage redesign. These are editorial images of yarn and crochet work; they do not represent specific Yarnly sellers or products available for purchase.
 
+The homepage now uses the RDNE crochet film as a full-screen autoplaying, muted, looping hero with text overlaid. Its header is transparent over the film and changes to the landing page's paper palette on scroll. The previous generated still life is retained as an unused design asset.
+
 ## Stock media
 
 All three files below come from Pexels. The [Pexels license](https://www.pexels.com/license/) permits free use and modification on websites and e-commerce shops. Attribution is optional; original creator credits are retained here.

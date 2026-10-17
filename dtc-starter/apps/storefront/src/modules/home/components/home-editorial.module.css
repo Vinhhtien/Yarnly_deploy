@@ -1,54 +1,11 @@
-.hero {
-  overflow: hidden;
-  padding: 30px 32px 0;
-  color: #2c2522;
-  background: #f1d4ba;
-}
-
-.intro {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1360px;
-  margin: 0 auto 32px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #2c252233;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.title {
-  margin: 0 auto;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(60px, 7.7vw, 116px);
-  font-weight: 400;
-  line-height: 1.06;
-  letter-spacing: -0.065em;
-  text-align: center;
-  text-wrap: balance;
-}
-
-.title span {
-  color: #78503b;
-}
-
-.heroDescription {
-  max-width: 530px;
-  margin: 24px auto;
-  font-size: 15px;
-  line-height: 1.75;
-  text-align: center;
-  text-wrap: balance;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 16px 28px;
+.home {
+  --yarnly-paper: #f5f5f2;
+  --yarnly-ink: #33362f;
+  --yarnly-muted: #697064;
+  --yarnly-terracotta: #4f6b40;
+  background: #f5f5f2;
+  color: #33362f;
+  font-family: Arial, "Helvetica Neue", sans-serif;
 }
 
 .button {
@@ -58,18 +15,18 @@
   justify-content: center;
   gap: 30px;
   padding: 14px 25px;
-  border: 1px solid #2c2522;
-  border-radius: 100px;
-  color: #fffaf3;
-  background: #2c2522;
+  border: 1px solid #33362f;
+  border-radius: 8px;
+  color: #f5f5f2;
+  background: #33362f;
   font-size: 13px;
   font-weight: 500;
   transition: background 180ms ease, color 180ms ease;
 }
 
 .button:hover {
-  color: #2c2522;
-  background: #fffaf3;
+  color: #33362f;
+  background: #f5f5f2;
 }
 
 .textLink {
@@ -88,70 +45,15 @@
 }
 
 .button:focus-visible,
-.textLink:focus-visible,
-.credit a:focus-visible {
+.textLink:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 5px;
 }
 
-.heroFigure {
-  position: relative;
-  max-width: 1360px;
-  margin: 38px auto 0;
-}
-
-.heroImage {
-  display: block;
-  width: 100%;
-  height: clamp(300px, 36vw, 520px);
-  object-fit: cover;
-  object-position: center 54%;
-}
-
-.imageLabel {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
-  padding: 10px 15px;
-  border: 1px solid #fffaf37a;
-  color: #fffaf3;
-  background: #2c2522ba;
-  font-size: 11px;
-  letter-spacing: 0.06em;
-}
-
-.values {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 44px;
-  padding: 26px 20px;
-  color: #fffaf3;
-  background: #59644a;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.values span {
-  display: flex;
-  align-items: center;
-  gap: 44px;
-}
-
-.values span::before {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #e9c1a1;
-  content: "";
-}
-
 .story {
   padding: 90px 32px;
-  color: #2c2522;
-  background: #eee9df;
+  color: #33362f;
+  background: #f5f5f2;
 }
 
 .storyHeading {
@@ -173,7 +75,7 @@
 
 .sectionTitle {
   max-width: 760px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Arial, "Helvetica Neue", sans-serif;
   font-size: clamp(38px, 4.6vw, 66px);
   font-weight: 400;
   line-height: 1.08;
@@ -184,65 +86,9 @@
 .storyHeading p:last-child {
   max-width: 410px;
   margin: 0 0 5px auto;
-  color: #61564d;
+  color: #697064;
   font-size: 15px;
   line-height: 1.8;
-}
-
-.film {
-  position: relative;
-  max-width: 1280px;
-  margin: 0 auto;
-  overflow: hidden;
-  background: #b7a58e;
-}
-
-.film video {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 8;
-  object-fit: cover;
-}
-
-.filmCaption {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 65px 30px 26px;
-  color: #fffaf3;
-  background: linear-gradient(transparent, #211811c9);
-  pointer-events: none;
-}
-
-.filmCaption span:first-child {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(24px, 3vw, 42px);
-  letter-spacing: -0.03em;
-}
-
-.filmCaption span:last-child {
-  font-size: 11px;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
-
-.credit {
-  max-width: 1280px;
-  margin: 12px auto 0;
-  color: #6e625a;
-  font-size: 11px;
-  line-height: 1.6;
-  text-align: right;
-}
-
-.credit a {
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 .steps {
@@ -256,14 +102,14 @@
 
 .step {
   padding-top: 20px;
-  border-top: 1px solid #2c252235;
+  border-top: 1px solid #33362f35;
 }
 
 .stepNumber {
   display: block;
   margin-bottom: 24px;
-  color: #7c503c;
-  font-family: Georgia, "Times New Roman", serif;
+  color: #4f6b40;
+  font-family: Arial, "Helvetica Neue", sans-serif;
   font-size: 22px;
   font-style: italic;
 }
@@ -276,7 +122,7 @@
 
 .step p {
   max-width: 330px;
-  color: #61564d;
+  color: #697064;
   font-size: 14px;
   line-height: 1.8;
 }
@@ -284,8 +130,8 @@
 .custom {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  color: #2c2522;
-  background: #f1d4ba;
+  color: #33362f;
+  background: #eef1e8;
 }
 
 .customImage {
@@ -322,13 +168,13 @@
   justify-content: space-between;
   gap: 40px;
   padding: 56px max(32px, calc((100vw - 1280px) / 2));
-  color: #fffaf3;
-  background: #59644a;
+  color: #f5f5f2;
+  background: #264329;
 }
 
 .maker h2 {
   max-width: 700px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Arial, "Helvetica Neue", sans-serif;
   font-size: clamp(30px, 3.5vw, 48px);
   line-height: 1.15;
   letter-spacing: -0.04em;
@@ -338,43 +184,7 @@
   flex-shrink: 0;
 }
 
-@media (min-width: 1700px) {
-  .hero {
-    padding-top: 42px;
-  }
-}
-
 @media (max-width: 760px) {
-  .hero {
-    padding: 22px 20px 0;
-  }
-
-  .intro {
-    justify-content: center;
-    margin-bottom: 30px;
-    padding-bottom: 17px;
-    font-size: 9px;
-  }
-
-  .intro span:last-child {
-    display: none;
-  }
-
-  .title {
-    font-size: clamp(44px, 9.5vw, 70px);
-    letter-spacing: -0.06em;
-  }
-
-  .heroDescription {
-    max-width: 410px;
-    margin: 21px auto;
-    font-size: 14px;
-  }
-
-  .actions {
-    gap: 7px 20px;
-  }
-
   .button {
     min-height: 48px;
     gap: 20px;
@@ -385,37 +195,6 @@
   .textLink {
     gap: 14px;
     font-size: 12px;
-  }
-
-  .heroFigure {
-    margin-top: 28px;
-  }
-
-  .heroImage {
-    height: 310px;
-    object-position: 80% center;
-  }
-
-  .imageLabel {
-    right: 12px;
-    bottom: 12px;
-    font-size: 9px;
-  }
-
-  .values {
-    flex-wrap: wrap;
-    gap: 14px 24px;
-    padding: 22px 16px;
-    font-size: 9px;
-  }
-
-  .values span {
-    gap: 10px;
-  }
-
-  .values span::before {
-    width: 4px;
-    height: 4px;
   }
 
   .story {
@@ -432,22 +211,6 @@
     max-width: 520px;
     margin: 0;
     font-size: 14px;
-  }
-
-  .film video {
-    aspect-ratio: 1 / 1;
-    object-position: 52% center;
-  }
-
-  .filmCaption {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
-    padding: 54px 20px 20px;
-  }
-
-  .filmCaption span:last-child {
-    font-size: 9px;
   }
 
   .steps {

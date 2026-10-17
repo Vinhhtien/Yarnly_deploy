@@ -5,6 +5,7 @@ import Hero from "@modules/home/components/hero"
 import HomeStory from "@modules/home/components/home-story"
 import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
+import styles from "@modules/home/components/home-editorial.module.css"
 
 export const metadata: Metadata = {
   title: "Yarnly — Chợ đồ len handmade Việt Nam",
@@ -30,9 +31,12 @@ export default async function Home(props: {
   }
 
   return (
-    <>
+    <div className={styles.home}>
       <Hero />
-      <section id="san-pham" className="scroll-mt-20 bg-[var(--yarnly-paper)] py-10 md:py-16">
+      <section
+        id="san-pham"
+        className="scroll-mt-20 bg-[var(--yarnly-paper)] py-10 md:py-16"
+      >
         <div className="content-container mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--yarnly-terracotta)]">
@@ -52,6 +56,6 @@ export default async function Home(props: {
         </ul>
       </section>
       <HomeStory />
-    </>
+    </div>
   )
 }

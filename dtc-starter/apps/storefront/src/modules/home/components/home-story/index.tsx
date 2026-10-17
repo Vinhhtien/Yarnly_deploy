@@ -41,35 +41,6 @@ const HomeStory = () => (
           Yarnly kết nối bạn với những người làm nên điều nhỏ bé ấy.
         </p>
       </div>
-      <figure className={styles.film}>
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          disablePictureInPicture
-          preload="metadata"
-          poster="/images/yarnly-crochet-film-poster.webp"
-          aria-label="Cận cảnh đôi tay đang dùng kim móc tạo từng mũi len"
-        >
-          <source src="/videos/yarnly-crochet-workshop.mp4" type="video/mp4" />
-          Trình duyệt của bạn không hỗ trợ phát video.
-        </video>
-        <figcaption className={styles.filmCaption}>
-          <span>Chậm một chút. Thương nhiều hơn.</span>
-          <span>Từng mũi móc / Từng chút chăm chút</span>
-        </figcaption>
-      </figure>
-      <p className={styles.credit}>
-        Thước phim về nghề móc len:{" "}
-        <a
-          href="https://www.pexels.com/video/a-person-using-a-crochet-hook-while-knitting-10474543/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          RDNE Stock project / Pexels
-        </a>
-      </p>
       <ol className={styles.steps}>
         {makingSteps.map((step) => (
           <li key={step.number} className={styles.step}>

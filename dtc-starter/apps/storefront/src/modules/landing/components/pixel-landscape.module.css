@@ -92,50 +92,6 @@
   animation-play-state: running;
 }
 
-.motionControl {
-  position: absolute;
-  z-index: 5;
-  bottom: 34px;
-  left: 22px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 12px;
-  border: 1px solid #ffffff40;
-  border-radius: 8px;
-  background: #153d3673;
-  color: #fff;
-  backdrop-filter: blur(10px);
-  cursor: pointer;
-  font: inherit;
-  font-size: 11px;
-  transition: background 180ms ease;
-}
-
-.motionControl:hover {
-  background: #153d36ad;
-}
-
-.motionControl:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 4px;
-}
-
-.motionControl svg {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-}
-
-.footerControl {
-  top: 72px;
-  bottom: auto;
-  left: auto;
-  right: 28px;
-}
-
 @keyframes cloudTravel {
   from {
     transform: translateX(0);
@@ -228,22 +184,6 @@
     left: 64%;
     transform: translate(-64%, -100%);
   }
-
-  .motionControl {
-    left: 22px;
-    width: 44px;
-    padding: 0;
-  }
-
-  .motionControl span {
-    display: none;
-  }
-
-  .footerControl {
-    top: 27px;
-    left: auto;
-    right: 22px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -252,8 +192,7 @@
   }
 
   .fallingLeaf,
-  .butterfly,
-  .motionControl {
+  .butterfly {
     display: none;
   }
 }
