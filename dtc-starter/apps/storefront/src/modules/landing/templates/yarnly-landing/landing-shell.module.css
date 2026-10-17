@@ -151,50 +151,6 @@
   line-height: 1.55;
   color: #ffffffed;
 }
-.heroNotes {
-  position: absolute;
-  top: 29%;
-  right: 14%;
-  display: grid;
-  gap: 8px;
-  transform: rotate(-3deg);
-}
-.heroNotes > div {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 14px 12px;
-  border-radius: 7px;
-  border: 1px solid #c5e3bf3b;
-  background: #1b402d80;
-  color: white;
-  backdrop-filter: blur(8px);
-  box-shadow: inset 0 1px #ffffff1a;
-  font-size: 11px;
-  animation: drift 7s ease-in-out infinite;
-}
-.heroNotes > div:nth-child(2) {
-  margin-left: 12px;
-  animation-delay: -2s;
-}
-.heroNotes > div:nth-child(3) {
-  margin-left: -2px;
-  animation-delay: -4s;
-}
-.heroNotes i {
-  width: 5px;
-  height: 5px;
-  background: #b7d771;
-  display: block;
-  box-shadow: 0 0 8px #b9dc6b88;
-  flex-shrink: 0;
-}
-.heroNotes span {
-  opacity: 0.68;
-}
-.heroNotes strong {
-  font-weight: 400;
-}
 .pixelEdge,
 .pixelEdgeTop {
   position: absolute;
@@ -279,21 +235,9 @@
 .footer a:focus-visible {
   outline-color: white;
 }
-@keyframes drift {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-7px);
-  }
-}
 @media (min-width: 1600px) {
   .heroInner {
     padding-top: 140px;
-  }
-  .heroNotes {
-    right: 19%;
   }
 }
 @media (max-width: 1100px) {
@@ -306,10 +250,6 @@
   }
   .navGlass {
     padding: 0 9px;
-  }
-  .heroNotes {
-    right: 7%;
-    top: 34%;
   }
   .hero h1 {
     max-width: 590px;
@@ -383,15 +323,6 @@
     font-size: 42px;
     max-width: 570px;
   }
-  .heroNotes {
-    top: auto;
-    bottom: 110px;
-    right: 6%;
-  }
-  .heroNotes > div {
-    font-size: 10px;
-    padding: 10px;
-  }
   .footerBottom {
     grid-template-columns: 1fr 1.2fr;
     gap: 30px;
@@ -439,16 +370,6 @@
     line-height: 1.6;
     margin-top: 21px;
   }
-  .heroNotes {
-    bottom: 75px;
-    right: 20px;
-    gap: 5px;
-  }
-  .heroNotes > div {
-    background: #1b402da8;
-    padding: 9px;
-    font-size: 9px;
-  }
   .footer {
     min-height: 810px;
   }
@@ -475,16 +396,5 @@
     font-size: 9px;
     gap: 12px;
     padding-top: 20px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .heroNotes > div {
-    animation: none;
-  }
-}
-
-@media (max-width: 520px) {
-  .heroNotes {
-    display: none;
   }
 }

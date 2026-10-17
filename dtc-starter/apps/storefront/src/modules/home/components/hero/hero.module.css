@@ -107,19 +107,6 @@
   outline-offset: 4px;
 }
 
-.credit {
-  position: absolute;
-  z-index: 1;
-  right: 28px;
-  bottom: 20px;
-  font-size: 10px;
-  color: #263e35;
-  background: #f5f5f2b3;
-  border-radius: 4px;
-  padding: 6px 9px;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
 
 @media (max-width: 760px) {
   .hero {
@@ -150,10 +137,5 @@
   .shade {
     background: linear-gradient(90deg, #edf5e694, #e5f2e380),
       linear-gradient(#e8f4e759, transparent);
-  }
-
-  .credit {
-    right: 23px;
-    bottom: 16px;
   }
 }

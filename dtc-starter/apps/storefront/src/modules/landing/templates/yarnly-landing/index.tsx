@@ -107,23 +107,6 @@ export default function YarnlyLanding() {
             </a>
           </div>
         </div>
-        <div className={shell.heroNotes} aria-label="Giá trị Yarnly">
-          <div>
-            <i />
-            <span>Từng mũi móc</span>
-            <strong>Làm bằng tay</strong>
-          </div>
-          <div>
-            <i />
-            <span>Sắc màu của bạn</span>
-            <strong>Đặt làm riêng</strong>
-          </div>
-          <div>
-            <i />
-            <span>Từ nghệ nhân Việt</span>
-            <strong>Gửi trọn yêu thương</strong>
-          </div>
-        </div>
         <PixelEdge />
       </section>
 

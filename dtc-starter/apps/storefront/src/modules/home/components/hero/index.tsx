@@ -37,14 +37,6 @@ const Hero = () => (
         </LocalizedClientLink>
       </div>
     </div>
-    <a
-      className={styles.credit}
-      href="https://www.pexels.com/video/a-person-using-a-crochet-hook-while-knitting-10474543/"
-      target="_blank"
-      rel="noreferrer"
-    >
-      RDNE Stock project / Pexels
-    </a>
   </section>
 )
 
