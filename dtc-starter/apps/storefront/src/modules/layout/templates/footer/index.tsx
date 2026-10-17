@@ -13,7 +13,7 @@ export default async function Footer() {
       <div className={styles.container}>
         <div className={styles.columns}>
           <div className={styles.brand}>
-            <LocalizedClientLink href="/ve-yarnly" className={styles.wordmark}>
+            <LocalizedClientLink href="/" className={styles.wordmark}>
               Yarnly<span aria-hidden="true">.</span>
             </LocalizedClientLink>
             <p>
@@ -57,7 +57,7 @@ export default async function Footer() {
             </h2>
             <ul className={styles.links}>
               <li>
-                <LocalizedClientLink href="/ve-yarnly">
+                <LocalizedClientLink href="/">
                   Câu chuyện Yarnly
                 </LocalizedClientLink>
               </li>

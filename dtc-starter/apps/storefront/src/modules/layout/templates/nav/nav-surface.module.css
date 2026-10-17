@@ -23,15 +23,15 @@
 }
 
 .surface[data-overlay="true"][data-scrolled="false"] .header {
-  border-color: #ffffff2e;
-  color: white;
+  border-color: #375c4526;
+  color: #263e35;
   background: transparent;
 }
 
 .surface[data-overlay="true"][data-scrolled="false"]
   .header
   :global([data-testid^="nav-"]):hover {
-  color: #e4edda;
+  color: #557348;
 }
 
 .surface[data-scrolled="true"] .header {

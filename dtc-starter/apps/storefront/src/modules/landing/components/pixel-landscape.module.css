@@ -94,14 +94,6 @@
   animation: wingBeat 0.6s ease-in-out infinite;
 }
 
-.sailboat {
-  animation: sail 22s linear infinite alternate;
-}
-
-.sailboatTwo {
-  animation: sail 28s linear infinite alternate-reverse;
-}
-
 .swayFlower {
   transform-origin: 0 0;
   animation: flowerSway 2.8s ease-in-out infinite;
@@ -113,15 +105,6 @@
   }
   to {
     transform: translateX(-120px);
-  }
-}
-
-@keyframes sail {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(350px);
   }
 }
 

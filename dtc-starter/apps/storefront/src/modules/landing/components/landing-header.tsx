@@ -21,7 +21,7 @@ export default function LandingHeader() {
     >
       <div className={styles.headerInner}>
         <LocalizedClientLink
-          href="/ve-yarnly"
+          href="/"
           className={styles.brand}
           aria-label="Yarnly — landing page"
         >
@@ -41,7 +41,7 @@ export default function LandingHeader() {
             Tài khoản
           </LocalizedClientLink>
         </nav>
-        <LocalizedClientLink href="/" className={styles.headerCta}>
+        <LocalizedClientLink href="/home" className={styles.headerCta}>
           Vào Yarnly <span aria-hidden="true">↗</span>
         </LocalizedClientLink>
         <details className={styles.mobileMenu}>

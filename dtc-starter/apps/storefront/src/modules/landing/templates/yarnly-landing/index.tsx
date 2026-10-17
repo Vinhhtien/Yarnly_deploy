@@ -99,7 +99,7 @@ export default function YarnlyLanding() {
             nên điều đặc biệt.
           </p>
           <div className={styles.actions}>
-            <LocalizedClientLink href="/" className={styles.lightButton}>
+            <LocalizedClientLink href="/home" className={styles.lightButton}>
               Khám phá Yarnly <span aria-hidden="true">↗</span>
             </LocalizedClientLink>
             <a href="#cau-chuyen" className={styles.glassButton}>
@@ -234,7 +234,7 @@ export default function YarnlyLanding() {
         <div className={styles.smallCta}>
           <h3>Bắt đầu bằng một món đồ bạn yêu.</h3>
           <p>Ghé Yarnly và tìm một chút dịu dàng cho ngày thường.</p>
-          <LocalizedClientLink href="/" className={styles.darkButton}>
+          <LocalizedClientLink href="/home" className={styles.darkButton}>
             Vào Yarnly <span aria-hidden="true">↗</span>
           </LocalizedClientLink>
         </div>
@@ -261,7 +261,7 @@ export default function YarnlyLanding() {
         <div className={styles.sectionIntro}>
           <h2>Bắt đầu với điều bạn yêu.</h2>
           <p>Một món quà, một cuộc gặp, hay một gian hàng của riêng mình.</p>
-          <LocalizedClientLink href="/" className={styles.darkButton}>
+          <LocalizedClientLink href="/home" className={styles.darkButton}>
             Cùng khám phá <span aria-hidden="true">↗</span>
           </LocalizedClientLink>
         </div>
@@ -405,12 +405,12 @@ export default function YarnlyLanding() {
             <br />
             Một câu chuyện của bạn.
           </h2>
-          <LocalizedClientLink href="/" className={styles.lightButton}>
+          <LocalizedClientLink href="/home" className={styles.lightButton}>
             Khám phá Yarnly <span aria-hidden="true">↗</span>
           </LocalizedClientLink>
           <div className={shell.footerBottom}>
             <div>
-              <LocalizedClientLink href="/ve-yarnly" className={shell.brand}>
+              <LocalizedClientLink href="/" className={shell.brand}>
                 Yarnly
               </LocalizedClientLink>
               <p>
@@ -420,7 +420,7 @@ export default function YarnlyLanding() {
               </p>
             </div>
             <nav aria-label="Liên kết cuối trang">
-              <LocalizedClientLink href="/">Trang chủ</LocalizedClientLink>
+              <LocalizedClientLink href="/home">Trang chủ</LocalizedClientLink>
               <LocalizedClientLink href="/store">Sản phẩm</LocalizedClientLink>
               <LocalizedClientLink href="/nghe-nhan">
                 Nghệ nhân

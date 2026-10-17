@@ -178,18 +178,6 @@ export default function PixelLandscape({
               ))}
             </g>
 
-            <g>
-              <g className={styles.sailboat}>
-                <path d="M80 731h44l-9 8H89Z" fill="#a85e45" />
-                <path d="M101 704v25H83Zm4 4 15 21h-15Z" fill="#fff9dc" />
-                <path d="M102 702h2v30h-2Z" fill="#486063" />
-              </g>
-              <g className={styles.sailboatTwo}>
-                <path d="M340 717h34l-7 6h-20Z" fill="#4f7489" />
-                <path d="M356 696v19h-14Zm3 3 12 16h-12Z" fill="#f2edcd" />
-              </g>
-            </g>
-
             {butterflies.map((butterfly) => (
               <g
                 key={butterfly.x}

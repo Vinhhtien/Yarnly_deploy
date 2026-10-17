@@ -11,7 +11,7 @@ export default function NavSurface({
   children: React.ReactNode
 }) {
   const pathname = usePathname()
-  const isHome = /^\/[a-z]{2}(?:-[a-z]{2})?\/?$/i.test(pathname)
+  const isHome = /^\/[a-z]{2}(?:-[a-z]{2})?\/home\/?$/i.test(pathname)
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {

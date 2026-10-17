@@ -32,7 +32,7 @@ export default async function Nav() {
 
         <div className="flex items-center h-full">
           <LocalizedClientLink
-            href="/ve-yarnly"
+            href="/"
             className="font-serif text-3xl tracking-[-0.06em]"
             data-testid="nav-store-link"
           >
