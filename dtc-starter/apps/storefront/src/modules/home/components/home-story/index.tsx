@@ -68,9 +68,12 @@ const HomeStory = () => {
             <figure className="overflow-hidden rounded-[1.5rem] bg-[#e9e1d3] shadow-sm md:rounded-[2rem]">
               <video
                 className="aspect-[9/14] w-full object-cover"
-                controls
+                autoPlay
+                muted
+                loop
                 playsInline
-                preload="none"
+                disablePictureInPicture
+                preload="auto"
                 poster="/images/crochet_bear.png"
                 aria-label="Video nghệ nhân đang móc len bằng tay"
               >

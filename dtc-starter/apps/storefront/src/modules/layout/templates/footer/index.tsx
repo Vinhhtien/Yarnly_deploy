@@ -17,7 +17,7 @@ export default async function Footer() {
         <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-40">
           <div>
             <LocalizedClientLink
-              href="/"
+              href="/ve-yarnly"
               className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
             >
               Yarnly
