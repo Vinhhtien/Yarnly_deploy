@@ -2,6 +2,18 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+:root {
+  --yarnly-paper: #fbf8f1;
+  --yarnly-cream: #f4efe5;
+  --yarnly-blush: #eed9ca;
+  --yarnly-ink: #2c2522;
+  --yarnly-muted: #6e625a;
+  --yarnly-terracotta: #a95236;
+  --yarnly-olive: #657252;
+  --yarnly-plum: #493443;
+  --yarnly-line: #e4dbcf;
+}
+
 @layer utilities {
   /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
@@ -46,6 +58,17 @@
   input[type="search"]::-webkit-search-results-button,
   input[type="search"]::-webkit-search-results-decoration {
     -webkit-appearance: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
