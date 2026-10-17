@@ -32,7 +32,6 @@ export default async function Home(props: {
   return (
     <>
       <Hero />
-      <HomeStory />
       <section id="san-pham" className="scroll-mt-20 bg-[var(--yarnly-paper)] py-10 md:py-16">
         <div className="content-container mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
@@ -52,6 +51,7 @@ export default async function Home(props: {
           <FeaturedProducts collections={collections} region={region} />
         </ul>
       </section>
+      <HomeStory />
     </>
   )
 }
