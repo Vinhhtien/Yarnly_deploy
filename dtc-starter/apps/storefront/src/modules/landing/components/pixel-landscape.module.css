@@ -33,37 +33,37 @@
 }
 
 .clouds {
-  opacity: 0.55;
+  opacity: 0.8;
 }
 
 .cloudOne {
-  animation: cloudTravel 110s linear infinite;
+  animation: cloudTravel 28s linear infinite;
   animation-delay: -19s;
 }
 
 .cloudTwo {
-  animation: cloudTravel 145s linear infinite;
+  animation: cloudTravel 36s linear infinite;
   animation-delay: -54s;
   opacity: 0.85;
 }
 
 .cloudThree {
-  animation: cloudTravel 175s linear infinite;
+  animation: cloudTravel 44s linear infinite;
   animation-delay: -96s;
   opacity: 0.7;
 }
 
 .canopyLight {
-  animation: leafLight 9s steps(12, end) infinite;
+  animation: leafLight 4s ease-in-out infinite;
   opacity: 0.1;
 }
 
 .rippleOne {
-  animation: waterRipple 6.5s steps(10, end) infinite;
+  animation: waterRipple 2.6s ease-in-out infinite;
 }
 
 .rippleTwo {
-  animation: waterRipple 7.5s steps(10, end) infinite;
+  animation: waterRipple 3.2s ease-in-out infinite;
   animation-delay: -3.5s;
 }
 
@@ -75,13 +75,64 @@
 }
 
 .butterfly {
-  animation: butterflyFlight 14s ease-in-out infinite;
+  animation: butterflyFlight 6s ease-in-out infinite;
 }
 
 .wings {
   transform-box: fill-box;
   transform-origin: center;
-  animation: wingBeat 0.65s steps(2, end) infinite;
+  animation: wingBeat 0.4s steps(2, end) infinite;
+}
+
+.birdFlight {
+  animation: birdTravel 14s linear infinite;
+}
+
+.birdWings {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: wingBeat 0.6s ease-in-out infinite;
+}
+
+.sailboat {
+  animation: sail 22s linear infinite alternate;
+}
+
+.sailboatTwo {
+  animation: sail 28s linear infinite alternate-reverse;
+}
+
+.swayFlower {
+  transform-origin: 0 0;
+  animation: flowerSway 2.8s ease-in-out infinite;
+}
+
+@keyframes birdTravel {
+  from {
+    transform: translateX(1130px);
+  }
+  to {
+    transform: translateX(-120px);
+  }
+}
+
+@keyframes sail {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(350px);
+  }
+}
+
+@keyframes flowerSway {
+  0%,
+  100% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(14deg);
+  }
 }
 
 .scene [class] {
@@ -108,8 +159,8 @@
     transform: translate(0, 0);
   }
   45% {
-    opacity: 0.16;
-    transform: translate(4px, 2px);
+    opacity: 0.3;
+    transform: translate(10px, 5px);
   }
   70% {
     opacity: 0.07;
@@ -124,8 +175,8 @@
     transform: translateX(-9px);
   }
   50% {
-    opacity: 0.68;
-    transform: translateX(11px);
+    opacity: 0.95;
+    transform: translateX(24px);
   }
 }
 
@@ -138,16 +189,16 @@
     opacity: 0.8;
   }
   35% {
-    transform: translate(-45px, 95px) rotate(75deg);
+    transform: translate(-80px, 125px) rotate(75deg) scale(1.3);
   }
   65% {
     opacity: 0.7;
-    transform: translate(-25px, 175px) rotate(145deg);
+    transform: translate(-40px, 235px) rotate(145deg) scale(1.3);
   }
   92%,
   100% {
     opacity: 0;
-    transform: translate(-100px, 265px) rotate(210deg);
+    transform: translate(-160px, 365px) rotate(210deg) scale(1.3);
   }
 }
 
@@ -157,13 +208,13 @@
     transform: translate(0, 0);
   }
   30% {
-    transform: translate(36px, -24px);
+    transform: translate(48px, -42px);
   }
   62% {
-    transform: translate(67px, -12px);
+    transform: translate(88px, -18px);
   }
   80% {
-    transform: translate(25px, -32px);
+    transform: translate(35px, -55px);
   }
 }
 

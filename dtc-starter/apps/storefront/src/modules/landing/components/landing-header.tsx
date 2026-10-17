@@ -49,25 +49,7 @@ export default function LandingHeader() {
             <span />
             <span />
           </summary>
-          <nav
-            aria-label="Điều hướng trên điện thoại"
-            onClick={(event) => {
-              const link = (event.target as HTMLElement).closest("a")
-              if (!link) return
-              const href = link.getAttribute("href") || ""
-              link.blur()
-              event.currentTarget.closest("details")?.removeAttribute("open")
-              if (href.startsWith("#")) {
-                event.preventDefault()
-                window.history.pushState(null, "", href)
-                window.requestAnimationFrame(() => {
-                  document
-                    .getElementById(href.slice(1))
-                    ?.scrollIntoView({ block: "start" })
-                })
-              }
-            }}
-          >
+          <nav aria-label="Điều hướng trên điện thoại">
             <a href="#kham-pha">Khám phá</a>
             <a href="#lam-rieng">Đặt làm riêng</a>
             <a href="#nghe-nhan">Dành cho nghệ nhân</a>

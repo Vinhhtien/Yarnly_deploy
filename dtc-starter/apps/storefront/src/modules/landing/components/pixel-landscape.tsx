@@ -9,13 +9,19 @@ type PixelLandscapeProps = {
   variant?: "hero" | "footer"
 }
 
-const leaves = [
-  { x: 1110, y: 240, delay: "-2s", duration: "17s" },
-  { x: 1390, y: 320, delay: "-9s", duration: "21s" },
-  { x: 920, y: 370, delay: "-5s", duration: "19s" },
-  { x: 1510, y: 180, delay: "-13s", duration: "23s" },
-  { x: 1240, y: 410, delay: "-16s", duration: "20s" },
+const leaves = Array.from({ length: 12 }, (_, index) => ({
+  x: 880 + (index % 6) * 125,
+  y: 150 + (index % 4) * 90,
+  delay: `${-index * 0.8}s`,
+  duration: `${6 + (index % 5)}s`,
+}))
+
+const butterflies = [
+  { x: 680, y: 770, scale: 1.7, color: "#f9df9d", delay: "0s" },
+  { x: 1240, y: 700, scale: 1.4, color: "#f2b2b0", delay: "-3s" },
+  { x: 1470, y: 780, scale: 1.2, color: "#e8f3c9", delay: "-5s" },
 ]
+const flowers = [260, 335, 420, 535, 755, 825]
 
 function PixelCloud({
   x,
@@ -99,16 +105,16 @@ export default function PixelLandscape({
 
             <g clipPath={`url(#${id}-sky)`} className={styles.clouds}>
               <g className={styles.cloudOne}>
-                <PixelCloud x={50} y={165} scale={1.25} />
-                <PixelCloud x={-1000} y={165} scale={1.25} />
+                <PixelCloud x={50} y={440} scale={1.25} />
+                <PixelCloud x={-1000} y={440} scale={1.25} />
               </g>
               <g className={styles.cloudTwo}>
-                <PixelCloud x={440} y={280} scale={0.68} />
-                <PixelCloud x={-610} y={280} scale={0.68} />
+                <PixelCloud x={440} y={500} scale={0.68} />
+                <PixelCloud x={-610} y={500} scale={0.68} />
               </g>
               <g className={styles.cloudThree}>
-                <PixelCloud x={670} y={370} scale={0.47} />
-                <PixelCloud x={-380} y={370} scale={0.47} />
+                <PixelCloud x={670} y={540} scale={0.47} />
+                <PixelCloud x={-380} y={540} scale={0.47} />
               </g>
             </g>
 
@@ -131,7 +137,10 @@ export default function PixelLandscape({
             </g>
 
             {leaves.map((leaf) => (
-              <g key={leaf.x} transform={`translate(${leaf.x} ${leaf.y})`}>
+              <g
+                key={`${leaf.x}-${leaf.y}`}
+                transform={`translate(${leaf.x} ${leaf.y})`}
+              >
                 <g
                   className={styles.fallingLeaf}
                   style={{
@@ -145,16 +154,84 @@ export default function PixelLandscape({
               </g>
             ))}
 
-            <g className={styles.butterfly}>
-              <g className={styles.wings}>
-                <path
-                  d="M683 770h-7v-7h-8v11h5v7h10Zm3 0h7v-7h8v11h-5v7h-10Z"
-                  fill="#f9df9d"
-                />
-                <path d="M680 781h-7v6h7Zm8 0h7v6h-7Z" fill="#edab6c" />
-              </g>
-              <path d="M683 770h3v15h-3Z" fill="#496641" />
+            <g clipPath={`url(#${id}-sky)`}>
+              {[0, 1, 2, 3, 4, 5].map((bird) => (
+                <g
+                  key={bird}
+                  transform={`translate(0 ${380 + (bird % 3) * 43})`}
+                >
+                  <g
+                    className={styles.birdFlight}
+                    style={{
+                      animationDelay: `${-bird * 2.3}s`,
+                      animationDuration: `${12 + bird}s`,
+                    }}
+                  >
+                    <g className={styles.birdWings}>
+                      <path
+                        d="M0 0h6v4h6v4h6V4h6V0h6v4h-6v4h-6v4h-6V8H6V4H0Z"
+                        fill="#294f66"
+                      />
+                    </g>
+                  </g>
+                </g>
+              ))}
             </g>
+
+            <g>
+              <g className={styles.sailboat}>
+                <path d="M80 731h44l-9 8H89Z" fill="#a85e45" />
+                <path d="M101 704v25H83Zm4 4 15 21h-15Z" fill="#fff9dc" />
+                <path d="M102 702h2v30h-2Z" fill="#486063" />
+              </g>
+              <g className={styles.sailboatTwo}>
+                <path d="M340 717h34l-7 6h-20Z" fill="#4f7489" />
+                <path d="M356 696v19h-14Zm3 3 12 16h-12Z" fill="#f2edcd" />
+              </g>
+            </g>
+
+            {butterflies.map((butterfly) => (
+              <g
+                key={butterfly.x}
+                transform={`translate(${butterfly.x} ${butterfly.y}) scale(${butterfly.scale})`}
+              >
+                <g
+                  className={styles.butterfly}
+                  style={{ animationDelay: butterfly.delay }}
+                >
+                  <g className={styles.wings}>
+                    <path
+                      d="M-2 0h-7v-7h-8V4h5v7h10Zm3 0h7v-7h8V4h-5v7H1Z"
+                      fill={butterfly.color}
+                    />
+                    <path d="M-5 11h-7v6h7Zm8 0h7v6H3Z" fill="#edab6c" />
+                  </g>
+                  <path d="M-2 0h3v15h-3Z" fill="#496641" />
+                </g>
+              </g>
+            ))}
+
+            {flowers.map((x, index) => (
+              <g
+                key={x}
+                transform={`translate(${x} ${875 + (index % 3) * 15})`}
+              >
+                <g
+                  className={styles.swayFlower}
+                  style={{ animationDelay: `${-index * 0.5}s` }}
+                >
+                  <path
+                    d="M-2 0h4v-48h-4Zm-12-20h12v5h-12Zm14-12h12v5H0Z"
+                    fill="#658146"
+                  />
+                  <path
+                    d="M-7-59H7v7h7v13H7v7H-7v-7h-7v-13h7Z"
+                    fill={index % 2 ? "#f7e1b0" : "#fff9df"}
+                  />
+                  <path d="M-5-50H5v10H-5Z" fill="#dfb84b" />
+                </g>
+              </g>
+            ))}
           </svg>
         </div>
       </div>
