@@ -119,11 +119,6 @@
   color: white;
   background: #4a97df;
 }
-.heroArt {
-  object-fit: cover;
-  object-position: center bottom;
-  image-rendering: auto;
-}
 .heroShade {
   position: absolute;
   inset: 0;
@@ -223,10 +218,6 @@
   min-height: 770px;
   color: white;
   background: #264329;
-}
-.footerArt {
-  object-fit: cover;
-  object-position: center 65%;
 }
 .footerShade {
   position: absolute;
@@ -425,9 +416,6 @@
     height: 850px;
     min-height: 100svh;
   }
-  .heroArt {
-    object-position: 64% bottom;
-  }
   .heroShade {
     background: linear-gradient(
       180deg,
@@ -463,9 +451,6 @@
   }
   .footer {
     min-height: 810px;
-  }
-  .footerArt {
-    object-position: 64% bottom;
   }
   .footerInner {
     padding: 70px 23px 20px;

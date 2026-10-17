@@ -4,6 +4,7 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import FeatureSections from "@modules/landing/components/feature-sections"
 import LandingHeader from "@modules/landing/components/landing-header"
 import PixelIcon from "@modules/landing/components/pixel-icon"
+import PixelLandscape from "@modules/landing/components/pixel-landscape"
 import styles from "./yarnly-landing.module.css"
 import shell from "./landing-shell.module.css"
 
@@ -85,14 +86,7 @@ export default function YarnlyLanding() {
       <LandingHeader />
 
       <section className={shell.hero} aria-labelledby="landing-title">
-        <Image
-          className={shell.heroArt}
-          src="/images/yarnly-pixel-garden.webp"
-          alt="Khu vườn pixel art với giỏ len, kim móc và gấu bông handmade dưới tán cây"
-          fill
-          priority
-          sizes="100vw"
-        />
+        <PixelLandscape />
         <div className={shell.heroShade} />
         <div className={shell.heroInner}>
           <h1 id="landing-title">
@@ -399,13 +393,7 @@ export default function YarnlyLanding() {
       </section>
 
       <footer className={shell.footer}>
-        <Image
-          src="/images/yarnly-pixel-garden.webp"
-          alt=""
-          fill
-          sizes="100vw"
-          className={shell.footerArt}
-        />
+        <PixelLandscape variant="footer" />
         <div className={shell.footerShade} />
         <PixelEdge top />
         <div className={shell.footerInner}>

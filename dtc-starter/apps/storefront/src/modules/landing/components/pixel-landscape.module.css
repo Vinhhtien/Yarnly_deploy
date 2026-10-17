@@ -1,0 +1,259 @@
+.scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  container-type: size;
+  pointer-events: none;
+}
+
+.world {
+  position: absolute;
+  width: max(100cqw, 177.68332cqh);
+  height: max(100cqh, 56.2799cqw);
+  left: 50%;
+  top: 100%;
+  transform: translate(-50%, -100%);
+}
+
+.footer .world {
+  top: 65%;
+  transform: translate(-50%, -65%);
+}
+
+.artwork {
+  object-fit: fill;
+}
+
+.effects {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.clouds {
+  opacity: 0.55;
+}
+
+.cloudOne {
+  animation: cloudTravel 110s linear infinite;
+  animation-delay: -19s;
+}
+
+.cloudTwo {
+  animation: cloudTravel 145s linear infinite;
+  animation-delay: -54s;
+  opacity: 0.85;
+}
+
+.cloudThree {
+  animation: cloudTravel 175s linear infinite;
+  animation-delay: -96s;
+  opacity: 0.7;
+}
+
+.canopyLight {
+  animation: leafLight 9s steps(12, end) infinite;
+  opacity: 0.1;
+}
+
+.rippleOne {
+  animation: waterRipple 6.5s steps(10, end) infinite;
+}
+
+.rippleTwo {
+  animation: waterRipple 7.5s steps(10, end) infinite;
+  animation-delay: -3.5s;
+}
+
+.fallingLeaf {
+  animation-name: leafFall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  opacity: 0;
+}
+
+.butterfly {
+  animation: butterflyFlight 14s ease-in-out infinite;
+}
+
+.wings {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wingBeat 0.65s steps(2, end) infinite;
+}
+
+.scene [class] {
+  animation-play-state: paused;
+}
+
+.scene[data-running="true"] [class] {
+  animation-play-state: running;
+}
+
+.motionControl {
+  position: absolute;
+  z-index: 5;
+  bottom: 34px;
+  left: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid #ffffff40;
+  border-radius: 8px;
+  background: #153d3673;
+  color: #fff;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  transition: background 180ms ease;
+}
+
+.motionControl:hover {
+  background: #153d36ad;
+}
+
+.motionControl:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+.motionControl svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.footerControl {
+  top: 72px;
+  bottom: auto;
+  left: auto;
+  right: 28px;
+}
+
+@keyframes cloudTravel {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(1050px);
+  }
+}
+
+@keyframes leafLight {
+  0%,
+  100% {
+    opacity: 0.02;
+    transform: translate(0, 0);
+  }
+  45% {
+    opacity: 0.16;
+    transform: translate(4px, 2px);
+  }
+  70% {
+    opacity: 0.07;
+    transform: translate(-2px, 1px);
+  }
+}
+
+@keyframes waterRipple {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: translateX(-9px);
+  }
+  50% {
+    opacity: 0.68;
+    transform: translateX(11px);
+  }
+}
+
+@keyframes leafFall {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  8% {
+    opacity: 0.8;
+  }
+  35% {
+    transform: translate(-45px, 95px) rotate(75deg);
+  }
+  65% {
+    opacity: 0.7;
+    transform: translate(-25px, 175px) rotate(145deg);
+  }
+  92%,
+  100% {
+    opacity: 0;
+    transform: translate(-100px, 265px) rotate(210deg);
+  }
+}
+
+@keyframes butterflyFlight {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  30% {
+    transform: translate(36px, -24px);
+  }
+  62% {
+    transform: translate(67px, -12px);
+  }
+  80% {
+    transform: translate(25px, -32px);
+  }
+}
+
+@keyframes wingBeat {
+  0%,
+  100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.4);
+  }
+}
+
+@media (max-width: 520px) {
+  .world,
+  .footer .world {
+    top: 100%;
+    left: 64%;
+    transform: translate(-64%, -100%);
+  }
+
+  .motionControl {
+    left: 22px;
+    width: 44px;
+    padding: 0;
+  }
+
+  .motionControl span {
+    display: none;
+  }
+
+  .footerControl {
+    top: 27px;
+    left: auto;
+    right: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene [class] {
+    animation: none;
+  }
+
+  .fallingLeaf,
+  .butterfly,
+  .motionControl {
+    display: none;
+  }
+}
