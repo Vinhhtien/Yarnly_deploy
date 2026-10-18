@@ -152,7 +152,7 @@ export default function GhnPickupFields({ value }: { value?: PickupValue }) {
           </select>
         </Field>
       </div>
-      {error && <p className="txt-small text-red-600">{error}</p>}
+      {error && <p className="txt-small text-[#8f4333]">{error}</p>}
       <input type="hidden" name="pickup_province_name" value={province?.name ?? ""} />
       <input type="hidden" name="pickup_district_id" value={district?.id ?? ""} />
       <input type="hidden" name="pickup_district_name" value={district?.name ?? ""} />

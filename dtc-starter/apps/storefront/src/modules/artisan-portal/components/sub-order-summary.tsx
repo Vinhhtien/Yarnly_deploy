@@ -1,5 +1,6 @@
 import type { ArtisanSubOrder } from "@lib/marketplace-types"
 import { formatDate, formatDateTime } from "@lib/util/vn-format"
+import { linkClass } from "../ui"
 
 /** One line telling the artisan what happens next with this sub-order. */
 export default function SubOrderNextStep({ subOrder }: { subOrder: ArtisanSubOrder }) {
@@ -19,7 +20,7 @@ export default function SubOrderNextStep({ subOrder }: { subOrder: ArtisanSubOrd
         <>
           {subOrder.carrier} –{" "}
           {subOrder.tracking_url ? (
-            <a href={subOrder.tracking_url} target="_blank" rel="noreferrer" className="text-violet-700 underline">
+            <a href={subOrder.tracking_url} target="_blank" rel="noreferrer" className={linkClass}>
               {subOrder.tracking_number}
             </a>
           ) : (
